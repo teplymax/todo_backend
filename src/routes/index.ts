@@ -5,7 +5,7 @@ const apiRouter = express.Router();
 
 apiRouter.get("/helloWorld", async (_req, res) => {
   try {
-    const todos = await db.query("SELECT * FROM Todos");
+    const todos = (await db.query(`SELECT * FROM "Todos"`)).rows;
 
     res.status(200).send(`Hello World! Todos: ${JSON.stringify(todos)}`);
   } catch (err) {
