@@ -1,11 +1,20 @@
-import { Pool } from "pg";
+import config from "../config";
+import { DataSource } from "typeorm";
 
-const db = new Pool({
-  user: process.env.DB_USER_NAME,
-  password: process.env.DB_PASSWORD,
-  host: "localhost",
-  port: 5432,
-  database: "mydb",
+const db = new DataSource({
+  ...config.db,
+  type: "postgres",
+  entities: ["src/db/entities/*.ts"],
+  logging: true,
+  synchronize: true,
 });
+
+db.initialize()
+  .then(() => {
+    console.log("Database has been initialized!");
+  })
+  .catch((err) => {
+    console.error("Error during Database initialization:", err);
+  });
 
 export { db };
