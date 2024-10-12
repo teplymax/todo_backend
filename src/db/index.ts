@@ -5,7 +5,7 @@ const db = new DataSource({
   ...config.db,
   type: "postgres",
   entities: ["src/db/entities/*.ts"],
-  logging: true,
+  logging: false,
   synchronize: true,
 });
 
