@@ -1,6 +1,9 @@
+import { Environment } from "./config";
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      NODE_ENV: Environment;
       PORT: string;
       DB_NAME: string;
       DB_PORT: string;

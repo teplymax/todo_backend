@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const config: Config = {
+  mode: process.env.NODE_ENV,
   db: {
     username: process.env.DB_USER_NAME,
     password: process.env.DB_PASSWORD,
