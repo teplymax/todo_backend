@@ -1,12 +1,13 @@
-import config from "../config";
 import { DataSource } from "typeorm";
+
+import config from "../config";
 
 const db = new DataSource({
   ...config.db,
   type: "postgres",
   entities: ["src/db/entities/*.ts"],
   logging: false,
-  synchronize: true,
+  synchronize: true
 });
 
 db.initialize()

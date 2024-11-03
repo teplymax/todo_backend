@@ -1,5 +1,6 @@
-import { Config } from "../types/config";
 import dotenv from "dotenv";
+
+import { Config } from "../types/config";
 
 dotenv.config();
 
@@ -10,8 +11,8 @@ const config: Config = {
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
-    database: process.env.DB_NAME,
-  },
+    database: process.env.DB_NAME
+  }
 };
 
 export default config;

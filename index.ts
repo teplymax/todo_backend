@@ -1,7 +1,8 @@
 import express from "express";
-import apiRouter from "./src/routes";
-import config from "./src/config";
-import { errorHandler } from "./src/utils/errors/errorHandler";
+
+import config from "@config";
+import apiRouter from "@routes";
+import { errorHandler } from "@utils/errors/errorHandler";
 
 const app = express();
 const port = process.env.PORT;
