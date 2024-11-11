@@ -14,7 +14,7 @@
     "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
-      "@types/*": [
+      "@typeDeclarations/*": [
         "./src/types/*"
       ],
       "@utils/*": [
@@ -40,6 +40,9 @@
       ],
       "@controllers/*": [
         "./src/controllers/*"
+      ],
+      "@middlewares/*": [
+        "./src/middlewares/*"
       ],
       "@services/*": [
         "./src/services/*"

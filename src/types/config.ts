@@ -1,5 +1,3 @@
-export type Environment = "development" | "production";
-
 interface DBConfig {
   username: string;
   password: string;
@@ -8,7 +6,30 @@ interface DBConfig {
   database: string;
 }
 
+interface TokenConfig {
+  secret: string;
+  expiresIn: string;
+}
+
+interface JWTConfig {
+  accessToken: TokenConfig;
+  refreshToken: TokenConfig;
+}
+
+interface MailerConfig {
+  auth: {
+    user: string;
+    password: string;
+  };
+  secure: boolean;
+  service: string;
+}
+
 export interface Config {
   readonly mode: Environment;
   readonly db: DBConfig;
+  readonly jwt: JWTConfig;
+  readonly mailer: MailerConfig;
 }
+
+export type Environment = "development" | "production";

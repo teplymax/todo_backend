@@ -3,6 +3,8 @@ import express from "express";
 import { db } from "../db";
 import { Todo } from "../db/entities/Todo.entity";
 
+import authRouter from "./authRouter";
+
 const apiRouter = express.Router();
 
 apiRouter.get("/helloWorld", async (_req, res) => {
@@ -15,5 +17,7 @@ apiRouter.get("/helloWorld", async (_req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+apiRouter.use("/auth", authRouter);
 
 export default apiRouter;

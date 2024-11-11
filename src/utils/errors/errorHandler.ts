@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
-import config from "../../config";
-import { BaseErrorObject, ErrorResponse } from "../../types/error";
+import config from "@config";
+import { BaseErrorObject, ErrorResponse } from "@typeDeclarations/error";
 
 import { APIError } from "./apiError";
 

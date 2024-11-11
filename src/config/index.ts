@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-import { Config } from "../types/config";
+import { Config } from "@typeDeclarations/config";
 
 dotenv.config();
 
@@ -12,6 +12,24 @@ const config: Config = {
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     database: process.env.DB_NAME
+  },
+  jwt: {
+    accessToken: {
+      secret: process.env.JWT_ACCESS_SECRET,
+      expiresIn: process.env.JWT_ACCESS_EXPIRATION_TIME
+    },
+    refreshToken: {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME
+    }
+  },
+  mailer: {
+    service: "gmail",
+    secure: true,
+    auth: {
+      user: process.env.MAILER_USER,
+      password: process.env.MAILER_PASSWORD
+    }
   }
 };
 

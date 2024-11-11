@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 
-import config from "../config";
+import config from "@config";
 
 const db = new DataSource({
   ...config.db,
