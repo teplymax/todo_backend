@@ -1,3 +1,3 @@
 export interface MailerServiceInterface {
-  sendVerificationEmail: (emailAddress: string) => Promise<string>;
+  sendVerificationEmail: (emailAddress: string, verificationCode: string) => Promise<string>;
 }

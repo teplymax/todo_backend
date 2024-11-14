@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+
+import { Token } from "./Token.entity";
 
 @Entity()
 export class User {
@@ -26,9 +28,16 @@ export class User {
   @Column({ nullable: true })
   birthdayDate: string;
 
+  @Column({ nullable: true, type: "text" })
+  verificationCode!: string | null;
+
   @Column()
   registrationDate: string;
 
   @Column()
   verified: boolean;
+
+  @OneToOne(() => Token)
+  @JoinColumn()
+  token: Token;
 }

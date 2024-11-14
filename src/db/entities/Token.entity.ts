@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { User } from "./User.entity";
 
@@ -8,6 +8,5 @@ export class Token {
   refreshToken: string;
 
   @OneToOne(() => User)
-  @JoinColumn()
   user: User;
 }

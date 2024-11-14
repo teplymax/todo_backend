@@ -11,10 +11,19 @@ export interface RegisterPayload {
 
 export interface RegisterResponse {
   accessToken: string;
-  user: User;
+  user: Omit<User, "verificationCode">;
+}
+
+export interface VerifyResponse {
+  accessToken: string;
+  user: Omit<User, "verificationCode">;
 }
 
 export interface LoginPayload {
   login: string;
   password: string;
+}
+
+export interface VerifyPayload {
+  verificationCode: string;
 }

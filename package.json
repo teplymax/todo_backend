@@ -11,7 +11,7 @@
     "test:ci": "jest --coverage --silent",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "tsc": "tsc",
+    "tsc": "tsc --noEmit",
     "prettify": "prettier --write --config ./.prettierrc"
   },
   "keywords": [],

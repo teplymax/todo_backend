@@ -1,7 +1,7 @@
 import { MailerServiceInterface } from "./index.interface";
 import { MailerService } from "./index.service";
 
-export class AuthServiceSingleton {
+export class MailerServiceSingleton {
   private static instance: MailerServiceInterface;
 
   static getInstance(): MailerServiceInterface {

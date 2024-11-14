@@ -1,6 +1,9 @@
 pre-commit:
-  parallel: true
+  parallel: false
   commands:
+    typecheck:
+      run: npm run tsc 
+      stage_fixed: true
     format:
       glob: "*.{js,ts,jsx,tsx}"
       run: npm run prettify {staged_files}
@@ -9,3 +12,4 @@ pre-commit:
       glob: "*.{js,ts,jsx,tsx}"
       run: npm run lint {staged_files}
       fail_text: Try run `npm run lint:fix` to cover issue or address them manually.
+      

@@ -10,18 +10,23 @@ export class MailerService implements MailerServiceInterface {
     this.mailerTransporeter = nodeMailer.createTransport(config.mailer);
   }
 
-  sendVerificationEmail(emailAddress: string) {
+  sendVerificationEmail(emailAddress: string, verificationCode: string) {
     return new Promise<string>((resolve) => {
       this.mailerTransporeter.sendMail(
         {
           from: "TODO ADMIN",
           to: emailAddress,
           subject: "Account verification",
-          html: "Your verification code:"
+          html: `
+          <div>
+            <h2>Verify code:</h2>
+            <h1>${verificationCode}</h1>
+            <p>Don't tell this code to anyone!</p>
+          </div>`
         },
         (error) => {
           if (!error) {
-            resolve("");
+            resolve(`${verificationCode}`);
           }
         }
       );

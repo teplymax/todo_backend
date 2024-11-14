@@ -3,13 +3,21 @@ import * as jwt from "jsonwebtoken";
 import config from "@config/index";
 import { Token } from "@db/entities/Token.entity";
 import { db } from "@db/index";
-import { TokenPayload } from "@typeDeclarations/token";
+import { Config } from "@typeDeclarations/config";
+import { TokenPayload, VerifyTokenPayload } from "@typeDeclarations/token";
+import { APIError } from "@utils/errors/apiError";
 
 import { TokenServiceInterface } from "./index.interface";
 
 export class TokenService implements TokenServiceInterface {
+  private jwtConfig: Config["jwt"];
+
+  constructor() {
+    this.jwtConfig = config.jwt;
+  }
+
   generateTokens(payload: TokenPayload, accessTokenOnly = false) {
-    const { accessToken: accessTokenConfig, refreshToken: refreshTokenConfig } = config.jwt;
+    const { accessToken: accessTokenConfig, refreshToken: refreshTokenConfig } = this.jwtConfig;
 
     const accessToken = jwt.sign(payload, accessTokenConfig.secret, {
       expiresIn: accessTokenConfig.expiresIn
@@ -22,6 +30,20 @@ export class TokenService implements TokenServiceInterface {
     });
 
     return { accessToken, refreshToken };
+  }
+
+  verifyToken({ tokenType, token }: VerifyTokenPayload) {
+    return new Promise<TokenPayload>((resolve, reject) => {
+      const { secret } = this.jwtConfig[tokenType];
+
+      jwt.verify(token, secret, (error, decoded) => {
+        if (!error && decoded) {
+          resolve(decoded as TokenPayload);
+        } else {
+          reject(new APIError("Invalid token.", 401, error?.message));
+        }
+      });
+    });
   }
 
   async saveToken(userId: string, refreshToken: string) {
