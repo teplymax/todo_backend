@@ -1,11 +1,18 @@
-import { LoginPayload, RegisterPayload, RegisterResponse, VerifyPayload, VerifyResponse } from "@typeDeclarations/auth";
+import {
+  LoginPayload,
+  GenericSuccessfulLoginResponse,
+  RegisterPayload,
+  RegisterResponse,
+  VerifyPayload,
+  RefreshTokenResponse
+} from "@typeDeclarations/auth";
 import { AppRequestHandler } from "@typeDeclarations/common";
 
 export interface AuthControllerInterface {
   register: AppRequestHandler<RegisterResponse, RegisterPayload>;
-  resendVerification: AppRequestHandler<unknown, unknown>;
-  verify: AppRequestHandler<VerifyResponse, VerifyPayload>;
-  login: AppRequestHandler<LoginPayload>;
+  resendVerification: AppRequestHandler;
+  verify: AppRequestHandler<GenericSuccessfulLoginResponse, VerifyPayload>;
+  login: AppRequestHandler<GenericSuccessfulLoginResponse, LoginPayload>;
+  refresh: AppRequestHandler<RefreshTokenResponse>;
   logout: AppRequestHandler;
-  refresh: AppRequestHandler;
 }

@@ -17,14 +17,13 @@ export const validationRules = {
     .test("login", "Login should be either email or nickname", (value, { createError }) => {
       if (value.includes("@")) {
         const isValidEmail = yup.string().email().isValidSync(value);
-
-        if (isValidEmail) createError({ message: "Invalid email format" });
+        if (!isValidEmail) createError({ message: "Invalid email format" });
 
         return isValidEmail;
       }
-      const isValidNickname = yup.string().min(2).isValidSync(value);
 
-      if (isValidNickname) createError({ message: "Nickname should have 2 symbols or more" });
+      const isValidNickname = yup.string().min(2).isValidSync(value);
+      if (!isValidNickname) createError({ message: "Nickname should have 2 symbols or more" });
 
       return isValidNickname;
     })

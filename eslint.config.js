@@ -63,7 +63,10 @@ export default [
       ],
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "off",
-      "unused-imports/no-unused-vars": ["error", { vars: "local", args: "after-used", argsIgnorePattern: "^_" }],
+      "unused-imports/no-unused-vars": [
+        "error",
+        { vars: "local", args: "after-used", argsIgnorePattern: "^_", caughtErrors: "none" }
+      ],
       "unused-imports/no-unused-imports": "error",
       "no-ternary": "off",
       "no-console": "off",

@@ -3,9 +3,8 @@ import { LoginPayload, RegisterPayload, VerifyPayload } from "@typeDeclarations/
 
 export interface AuthServiceInterface {
   register: (payload: RegisterPayload) => Promise<User>;
-  login: (payload: LoginPayload) => void;
+  login: (payload: LoginPayload) => Promise<User>;
   verify: (payload: VerifyPayload, userId: string) => Promise<User>;
   resendVerification: (userId: string) => Promise<string>;
   logout: () => void;
-  refresh: () => void;
 }

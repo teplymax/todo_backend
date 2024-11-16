@@ -71,4 +71,20 @@ export class TokenService implements TokenServiceInterface {
 
     return await tokensRepository.save(newToken);
   }
+
+  async removeToken(userId: string) {
+    const tokensRepository = db.getRepository(Token);
+
+    const token = await tokensRepository.findOne({
+      where: {
+        user: {
+          id: userId
+        }
+      }
+    });
+
+    if (token) {
+      await tokensRepository.remove(token);
+    }
+  }
 }

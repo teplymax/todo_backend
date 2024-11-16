@@ -14,11 +14,6 @@ export interface RegisterResponse {
   user: Omit<User, "verificationCode">;
 }
 
-export interface VerifyResponse {
-  accessToken: string;
-  user: Omit<User, "verificationCode">;
-}
-
 export interface LoginPayload {
   login: string;
   password: string;
@@ -26,4 +21,13 @@ export interface LoginPayload {
 
 export interface VerifyPayload {
   verificationCode: string;
+}
+
+export interface GenericSuccessfulLoginResponse {
+  accessToken: string;
+  user: Omit<User, "verificationCode">;
+}
+
+export interface RefreshTokenResponse {
+  accessToken: string;
 }

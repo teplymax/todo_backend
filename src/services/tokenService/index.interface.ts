@@ -5,4 +5,5 @@ export interface TokenServiceInterface {
   generateTokens: (payload: TokenPayload, accessTokenOnly?: boolean) => TokensPair;
   verifyToken: (payload: VerifyTokenPayload) => Promise<TokenPayload>;
   saveToken: (userId: string, refreshToken: string) => Promise<Token>;
+  removeToken: (userId: string) => Promise<void>;
 }
