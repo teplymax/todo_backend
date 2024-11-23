@@ -31,10 +31,16 @@ export class AuthService implements AuthServiceInterface {
     data.password = await bCrypt.hash(data.password, 10);
     const encryptedVerificationCode = await bCrypt.hash(`${verificationCode}`, 10);
 
+    let birthdayDate: Date | undefined;
+    if (data.birthdayDate) {
+      birthdayDate = new Date(data.birthdayDate);
+    }
+
     const newUser = usersRepository.create({
       ...data,
+      birthdayDate,
       verificationCode: encryptedVerificationCode,
-      registrationDate: new Date().toISOString(),
+      registrationDate: new Date(),
       verified: false
     });
     return await usersRepository.save(newUser);

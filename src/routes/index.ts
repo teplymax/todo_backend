@@ -3,7 +3,7 @@ import express from "express";
 import { db } from "../db";
 import { Todo } from "../db/entities/Todo.entity";
 
-import authRouter from "./authRouter";
+import authRouter from "./auth.router";
 
 const apiRouter = express.Router();
 

@@ -4,7 +4,8 @@
     "target": "es2020",
     "module": "es2020",
     "outDir": "./dist",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -21,19 +22,19 @@
         "./src/utils/*"
       ],
       "@routes/*": [
-        "./src/routes/*",
+        "./src/routes/*"
       ],
       "@routes": [
         "./src/routes/index"
       ],
       "@config/*": [
-        "./src/config/*",
+        "./src/config/*"
       ],
       "@config": [
-        "./src/config/index",
+        "./src/config/index"
       ],
       "@db/*": [
-        "./src/db/*",
+        "./src/db/*"
       ],
       "@db": [
         "./src/db/index"
@@ -48,5 +49,11 @@
         "./src/services/*"
       ]
     }
+  },
+  "exclude": [
+    "./node_modules"
+  ],
+  "tsc-alias": {
+    "resolveFullPaths": true
   }
 }

@@ -7,34 +7,31 @@ export class User {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: "text" })
   email: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: "text" })
   nickname: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, type: "text" })
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: "text" })
   name: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: "text" })
   surname: string;
 
-  @Column({ nullable: true })
-  age: number;
-
-  @Column({ nullable: true })
-  birthdayDate: string;
+  @Column({ nullable: true, type: "timestamptz" })
+  birthdayDate: Date;
 
   @Column({ nullable: true, type: "text" })
-  verificationCode!: string | null;
+  verificationCode: string | null;
 
-  @Column()
-  registrationDate: string;
+  @Column({ type: "timestamptz", generated: true })
+  registrationDate: Date;
 
-  @Column()
+  @Column({ type: "boolean" })
   verified: boolean;
 
   @OneToOne(() => Token)
