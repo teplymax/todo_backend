@@ -87,7 +87,7 @@ class AuthController implements AuthControllerInterface {
 
       try {
         const tokenPayload = await TokenServiceSingleton.getInstance().verifyToken({
-          token: user.token.refreshToken,
+          token: user.token.refreshToken ?? "",
           tokenType: "refreshToken"
         });
         const { accessToken } = TokenServiceSingleton.getInstance().generateTokens(tokenPayload, true);
@@ -95,7 +95,7 @@ class AuthController implements AuthControllerInterface {
         this.sendAuthorizedUserResponse(res, {
           accessToken,
           user,
-          refreshToken: user.token.refreshToken
+          refreshToken: user.token.refreshToken ?? ""
         });
       } catch (error) {
         const { accessToken, refreshToken } = TokenServiceSingleton.getInstance().generateTokens({
@@ -108,7 +108,7 @@ class AuthController implements AuthControllerInterface {
         this.sendAuthorizedUserResponse(res, {
           accessToken,
           user,
-          refreshToken: user.token.refreshToken
+          refreshToken: user.token.refreshToken ?? ""
         });
       }
     } catch (error) {

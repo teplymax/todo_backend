@@ -1,4 +1,4 @@
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import config from "@config/index";
 import { Token } from "@db/entities/Token.entity";

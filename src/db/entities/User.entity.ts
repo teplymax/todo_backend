@@ -13,7 +13,7 @@ export class User {
   @Column({ unique: true, type: "text" })
   nickname: string;
 
-  @Column({ unique: true, type: "text" })
+  @Column({ type: "text" })
   password: string;
 
   @Column({ nullable: true, type: "text" })
@@ -28,13 +28,13 @@ export class User {
   @Column({ nullable: true, type: "text" })
   verificationCode: string | null;
 
-  @Column({ type: "timestamptz", generated: true })
+  @Column({ type: "timestamptz" })
   registrationDate: Date;
 
   @Column({ type: "boolean" })
   verified: boolean;
 
-  @OneToOne(() => Token)
+  @OneToOne(() => Token, (token) => token.user, { cascade: true })
   @JoinColumn()
   token: Token;
 }

@@ -3,10 +3,11 @@ import nodeMailer, { Transporter } from "nodemailer";
 import config from "@config/index";
 
 import { MailerServiceInterface } from "./index.interface";
+
 export class MailerService implements MailerServiceInterface {
   private mailerTransporeter: Transporter;
 
-  constuctor() {
+  constructor() {
     this.mailerTransporeter = nodeMailer.createTransport(config.mailer);
   }
 
@@ -28,6 +29,8 @@ export class MailerService implements MailerServiceInterface {
           if (!error) {
             resolve(`${verificationCode}`);
           }
+
+          resolve(error?.message ?? "Error during email sending process");
         }
       );
     });

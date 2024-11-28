@@ -26,6 +26,8 @@ export function errorHandler(error: unknown, _req: Request, res: Response<ErrorR
       error: buildErrorObject(error)
     });
   } else {
+    console.log(error);
+
     res.status(500).json({
       success: false,
       error: {
