@@ -46,6 +46,10 @@ export class TokenService implements TokenServiceInterface {
     });
   }
 
+  decodeToken(token: string) {
+    return jwt.decode(token) as TokenPayload;
+  }
+
   async saveToken(userId: string, refreshToken: string) {
     const tokensRepository = db.getRepository(Token);
 

@@ -28,7 +28,7 @@ const config: Config = {
     secure: true,
     auth: {
       user: process.env.MAILER_USER,
-      password: process.env.MAILER_PASSWORD
+      pass: process.env.MAILER_PASSWORD
     }
   }
 };

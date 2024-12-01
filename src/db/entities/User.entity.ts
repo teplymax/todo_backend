@@ -34,7 +34,7 @@ export class User {
   @Column({ type: "boolean" })
   verified: boolean;
 
-  @OneToOne(() => Token, (token) => token.user, { cascade: true })
+  @OneToOne(() => Token, (token) => token.user, { cascade: true, onDelete: "SET NULL" })
   @JoinColumn()
   token: Token;
 }

@@ -20,7 +20,7 @@ export class AuthService implements AuthServiceInterface {
 
   async register(data: RegisterPayload) {
     const usersRepository = db.getRepository(User);
-    const verificationCode = generateVerificationCode();
+    const verificationCode = generateVerificationCode().toString();
 
     const userByNickname = await usersRepository.findOne({ where: { nickname: data.nickname } });
     this.throwUserAlreadyExistsError(!!userByNickname, "nickname");
@@ -29,7 +29,7 @@ export class AuthService implements AuthServiceInterface {
     this.throwUserAlreadyExistsError(!!userByEmail, "email");
 
     data.password = await bCrypt.hash(data.password, 10);
-    const encryptedVerificationCode = await bCrypt.hash(`${verificationCode}`, 10);
+    const encryptedVerificationCode = await bCrypt.hash(verificationCode, 10);
 
     let birthdayDate: Date | undefined;
     if (data.birthdayDate) {
@@ -43,7 +43,8 @@ export class AuthService implements AuthServiceInterface {
       registrationDate: new Date(),
       verified: false
     });
-    return await usersRepository.save(newUser);
+    const user = await usersRepository.save(newUser);
+    return { ...user, verificationCode };
   }
 
   async verify(payload: VerifyPayload, userId: string) {

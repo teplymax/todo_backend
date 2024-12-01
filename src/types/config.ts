@@ -19,7 +19,7 @@ interface JWTConfig {
 interface MailerConfig {
   auth: {
     user: string;
-    password: string;
+    pass: string;
   };
   secure: boolean;
   service: string;

@@ -15,8 +15,9 @@ export async function authMiddleware(req: Request, _res: Response, next: NextFun
     next();
   } catch (error) {
     if (error instanceof APIError) {
-      const additionalInfo = `${error.message};${error.additionalInfo || ""}`;
-      throw new APIError("Unauthorised", 401, additionalInfo);
+      const additionalInfo = `${error.message}|${error.additionalInfo || ""}`;
+
+      next(new APIError("Unauthorised", 401, additionalInfo));
     } else {
       next(error);
     }
