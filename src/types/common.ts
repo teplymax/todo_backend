@@ -6,3 +6,7 @@ export type AppRequestHandler<
   RequestParams = unknown,
   RequestQueryParams = unknown
 > = RequestHandler<RequestParams, ResponseBody, RequestBody, RequestQueryParams, Record<string, unknown>>;
+
+export interface Mapper<D, T, Props = unknown> {
+  map(data: D, props?: Props): T;
+}

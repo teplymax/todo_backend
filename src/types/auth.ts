@@ -9,9 +9,11 @@ export interface RegisterPayload {
   birthdayDate?: string;
 }
 
+export type MappedUser = Omit<User, "verificationCode" | "password" | "token">;
+
 export interface RegisterResponse {
   accessToken: string;
-  user: Omit<User, "verificationCode">;
+  user: MappedUser;
 }
 
 export interface LoginPayload {
@@ -25,7 +27,7 @@ export interface VerifyPayload {
 
 export interface GenericSuccessfulLoginResponse {
   accessToken: string;
-  user: Omit<User, "verificationCode">;
+  user: MappedUser;
 }
 
 export interface RefreshTokenResponse {

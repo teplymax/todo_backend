@@ -4,6 +4,7 @@ import { Response } from "express";
 
 import config from "@config/index";
 import { AuthServiceSingleton } from "@services/authService";
+import { UserMapper } from "@services/authService/user.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
 import {
   GenericSuccessfulLoginResponse,
@@ -61,7 +62,7 @@ class AuthController implements AuthControllerInterface {
 
       res.status(201).json({
         accessToken,
-        user
+        user: UserMapper.getInstance().map(user)
       });
     } catch (error) {
       next(error);
@@ -83,8 +84,8 @@ class AuthController implements AuthControllerInterface {
 
       this.sendAuthorizedUserResponse(res, {
         accessToken,
-        user,
-        refreshToken
+        refreshToken,
+        user: UserMapper.getInstance().map(user)
       });
     } catch (error) {
       next(error);
@@ -117,8 +118,8 @@ class AuthController implements AuthControllerInterface {
 
         this.sendAuthorizedUserResponse(res, {
           accessToken,
-          user,
-          refreshToken
+          refreshToken,
+          user: UserMapper.getInstance().map(user)
         });
       }
     } catch (error) {
