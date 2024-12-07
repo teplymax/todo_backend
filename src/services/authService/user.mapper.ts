@@ -1,4 +1,4 @@
-import { omit } from "lodash";
+import _ from "lodash";
 
 import { User } from "@db/entities/User.entity";
 import { MappedUser } from "@typeDeclarations/auth";
@@ -16,6 +16,6 @@ export class UserMapper implements Mapper<User, MappedUser> {
   }
 
   map(data: User): MappedUser {
-    return omit(data, ["verificationCode", "password", "token"]);
+    return _.omit(data, ["verificationCode", "password", "token"]);
   }
 }

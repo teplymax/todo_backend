@@ -6,6 +6,7 @@ dotenv.config();
 
 const config: Config = {
   mode: process.env.NODE_ENV,
+  port: process.env.PORT,
   db: {
     username: process.env.DB_USER_NAME,
     password: process.env.DB_PASSWORD,

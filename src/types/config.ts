@@ -27,6 +27,7 @@ interface MailerConfig {
 
 export interface Config {
   readonly mode: Environment;
+  readonly port: string;
   readonly db: DBConfig;
   readonly jwt: JWTConfig;
   readonly mailer: MailerConfig;

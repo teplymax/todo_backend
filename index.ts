@@ -2,19 +2,19 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
 
-import config from "@config";
+import config from "@config/index";
 import apiRouter from "@routes";
 import { errorHandler } from "@utils/errors/errorHandler";
 
 const app = express();
-const port = process.env.PORT;
+const port = config.port;
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`, config.db);
+  console.log(`Example app listening on port ${port}`);
 });
 
 app.use("/api", apiRouter);
