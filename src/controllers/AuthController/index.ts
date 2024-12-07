@@ -14,14 +14,15 @@ import {
   RegisterResponse,
   VerifyPayload
 } from "@typeDeclarations/auth";
-import { AppRequestHandler } from "@typeDeclarations/common";
+import { AppRequestHandler, BaseResponse } from "@typeDeclarations/common";
+import { generateResponse } from "@utils/common/generateResponse";
 import { extractTokenFromAuthHeader, parseTokenExpTimeToMs } from "@utils/stringUtils";
 
 import { AuthControllerInterface } from "./index.interface";
 
 class AuthController implements AuthControllerInterface {
   private sendAuthorizedUserResponse(
-    res: Response<GenericSuccessfulLoginResponse>,
+    res: Response<BaseResponse<GenericSuccessfulLoginResponse>>,
     payload: GenericSuccessfulLoginResponse & {
       refreshToken: string | undefined;
     }
@@ -32,10 +33,12 @@ class AuthController implements AuthControllerInterface {
         httpOnly: true
       })
       .status(200)
-      .json({
-        accessToken: payload.accessToken,
-        user: payload.user
-      });
+      .json(
+        generateResponse<GenericSuccessfulLoginResponse>({
+          accessToken: payload.accessToken,
+          user: payload.user
+        })
+      );
   }
 
   private sendVerificationEmail(email: string, code: string) {
@@ -60,10 +63,12 @@ class AuthController implements AuthControllerInterface {
         true
       );
 
-      res.status(201).json({
-        accessToken,
-        user: UserMapper.getInstance().map(user)
-      });
+      res.status(201).json(
+        generateResponse<GenericSuccessfulLoginResponse>({
+          accessToken,
+          user: UserMapper.getInstance().map(user)
+        })
+      );
     } catch (error) {
       next(error);
     }
@@ -134,7 +139,7 @@ class AuthController implements AuthControllerInterface {
       const { id, email, nickname } = TokenServiceSingleton.getInstance().decodeToken(token);
       const { accessToken } = TokenServiceSingleton.getInstance().generateTokens({ id, email, nickname }, true);
 
-      res.status(200).json({ accessToken });
+      res.status(200).json(generateResponse<RefreshTokenResponse>({ accessToken }));
     } catch (error) {
       next(error);
     }
@@ -148,7 +153,7 @@ class AuthController implements AuthControllerInterface {
       const verificationCode = await AuthServiceSingleton.getInstance().resendVerification(tokenPayload.id);
       this.sendVerificationEmail(tokenPayload.email, verificationCode);
 
-      res.status(200).json({});
+      res.status(200).json(generateResponse());
     } catch (error) {
       next(error);
     }
@@ -161,7 +166,7 @@ class AuthController implements AuthControllerInterface {
       const tokenPayload = await TokenServiceSingleton.getInstance().verifyToken({ token, tokenType: "accessToken" });
       await TokenServiceSingleton.getInstance().removeToken(tokenPayload.id);
 
-      res.clearCookie("refreshToken").status(200).json({});
+      res.clearCookie("refreshToken").status(200).json(generateResponse());
     } catch (error) {
       next(error);
     }

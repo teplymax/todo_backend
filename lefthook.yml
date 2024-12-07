@@ -12,4 +12,5 @@ pre-commit:
       glob: "*.{js,ts,jsx,tsx}"
       run: npm run lint {staged_files}
       fail_text: Try run `npm run lint:fix` to cover issue or address them manually.
+      stage_fixed: true
       

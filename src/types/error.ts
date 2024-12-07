@@ -1,4 +1,4 @@
-import { BaseResponse } from "./response";
+import { BaseResponse } from "./common";
 
 export interface BaseErrorObject {
   message: string;
