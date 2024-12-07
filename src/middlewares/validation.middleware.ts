@@ -17,9 +17,9 @@ export function validationMiddleware(validator: keyof typeof VALIDATORS) {
     } catch (error) {
       if (error instanceof ValidationError) {
         next(new APIError(error.errors.join("\n"), 400));
+      } else {
+        next(new APIError("Unknown validation error", 400));
       }
-
-      next(new APIError("Unknown validation error", 400));
     }
   };
 }
