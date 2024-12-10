@@ -1,5 +1,9 @@
-// eslint-disable-next-line n/no-unpublished-import
-import type { Config } from "jest";
+/* eslint-disable n/no-unpublished-import */
+
+import { Config } from "jest";
+import { pathsToModuleNameMapper } from "ts-jest";
+
+import { compilerOptions } from "./tsconfig.json";
 
 const config: Config = {
   // reporters: ["default", ["jest-junit", { outputDirectory: "__test-results__", reportTestSuiteErrors: true }]],
@@ -9,6 +13,7 @@ const config: Config = {
   transform: {
     "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
   },
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, { prefix: "<rootDir>/" }),
   transformIgnorePatterns: ["node_modules/(?!variables/.*)"],
   reporters: ["default"],
   coverageDirectory: "__coverage__",

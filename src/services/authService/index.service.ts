@@ -8,7 +8,6 @@ import { generateVerificationCode } from "@utils/stringUtils";
 
 import { AuthServiceInterface } from "./index.interface";
 
-//TODO: Create mapper for user data to return only data that should be visible for user
 export class AuthService implements AuthServiceInterface {
   private throwInvalidCredsError(shouldThrow: boolean) {
     if (shouldThrow) throw new APIError("Invalid credentials", 401);
