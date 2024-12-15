@@ -11,7 +11,8 @@ const config: Config = {
   preset: "ts-jest",
   testEnvironment: "node",
   transform: {
-    "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
+    // "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest",
+    "^.+\\.jsx?$": "babel-jest"
   },
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, { prefix: "<rootDir>/" }),
   transformIgnorePatterns: ["node_modules/(?!variables/.*)"],
@@ -30,7 +31,8 @@ const config: Config = {
   testPathIgnorePatterns: ["/node_modules/"], // it's to ignore files dedicated for definition of mocked data structure for UT
   // setupFiles: ["./jest/globals.js"],
   moduleFileExtensions: ["ts", "js", "json", "node"],
-  modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"]
+  modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
+  setupFiles: ["./jest/globals.js"]
 };
 
 export default config;

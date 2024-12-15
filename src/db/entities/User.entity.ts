@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, type Relation } from "typeorm";
 
 import { Token } from "./Token.entity";
 
@@ -36,5 +36,5 @@ export class User {
 
   @OneToOne(() => Token, (token) => token.user, { cascade: true, onDelete: "SET NULL" })
   @JoinColumn()
-  token: Token;
+  token: Relation<Token>;
 }

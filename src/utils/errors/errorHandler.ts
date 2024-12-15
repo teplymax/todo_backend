@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import config from "@config";
+import { IS_DEV } from "@config";
 import { BaseErrorObject, ErrorResponse } from "@typeDeclarations/error";
 
 import { APIError } from "./apiError";
@@ -12,7 +12,7 @@ function buildErrorObject(error: APIError): BaseErrorObject {
     status: error.status
   };
 
-  if (config.mode === "development") {
+  if (IS_DEV) {
     errorObject.stack = error.stack;
   }
 

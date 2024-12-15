@@ -4,6 +4,7 @@ interface DBConfig {
   host: string;
   port: number;
   database: string;
+  dropSchema: boolean;
 }
 
 interface TokenConfig {
@@ -33,4 +34,4 @@ export interface Config {
   readonly mailer: MailerConfig;
 }
 
-export type Environment = "development" | "production";
+export type Environment = "development" | "production" | "test";

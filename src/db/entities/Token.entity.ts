@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, type Relation } from "typeorm";
 
 import { User } from "./User.entity";
 
@@ -11,5 +11,5 @@ export class Token {
   refreshToken: string | null;
 
   @OneToOne(() => User, (user) => user.token)
-  user: User;
+  user: Relation<User>;
 }
