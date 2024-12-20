@@ -4,6 +4,8 @@ import { APIError } from "@utils/errors/apiError";
 
 import { UserServiceInterface } from "./index.interface";
 
+console.log(db);
+
 export class UserService implements UserServiceInterface {
   async getUserById(userId: string) {
     const usersRepository = db.getRepository(User);

@@ -8,7 +8,7 @@ import { compilerOptions } from "./tsconfig.json";
 const config: Config = {
   // reporters: ["default", ["jest-junit", { outputDirectory: "__test-results__", reportTestSuiteErrors: true }]],
   // coverageReporters: ["cobertura", "lcov", "text-summary"],
-  testEnvironment: "node",
+  testEnvironment: "jest-environment-node",
   ...createJsWithTsEsmPreset({
     tsconfig: "./tsconfig.json",
     isolatedModules: true
@@ -30,8 +30,8 @@ const config: Config = {
   coveragePathIgnorePatterns: ["/node_modules/"], // it's to ignore files dedicated for definition of mocked data structure for UT
   testPathIgnorePatterns: ["/node_modules/"], // it's to ignore files dedicated for definition of mocked data structure for UT
   moduleFileExtensions: ["ts", "js", "json", "node"],
-  modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"]
-  // setupFiles: ["./jest/globals.js"]
+  modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
+  setupFiles: ["./jest/globals.ts"]
 };
 
 export default config;
