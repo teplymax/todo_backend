@@ -11,7 +11,7 @@ const config: Config = {
     tsconfig: "./tsconfig.json",
     isolatedModules: true
   }),
-  extensionsToTreatAsEsm: [".ts", ".js"],
+  extensionsToTreatAsEsm: [".ts"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: "<rootDir>/" }),
   reporters: ["default"],
   coverageDirectory: "__coverage__",
