@@ -6,16 +6,13 @@ import { createJsWithTsEsmPreset, pathsToModuleNameMapper } from "ts-jest";
 import { compilerOptions } from "./tsconfig.json";
 
 const config: Config = {
-  // reporters: ["default", ["jest-junit", { outputDirectory: "__test-results__", reportTestSuiteErrors: true }]],
-  // coverageReporters: ["cobertura", "lcov", "text-summary"],
   testEnvironment: "jest-environment-node",
   ...createJsWithTsEsmPreset({
     tsconfig: "./tsconfig.json",
     isolatedModules: true
   }),
-  extensionsToTreatAsEsm: [".ts"],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, { prefix: "<rootDir>/" }),
-  transformIgnorePatterns: ["node_modules/(?!variables/.*)"],
+  extensionsToTreatAsEsm: [".ts", ".js"],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: "<rootDir>/" }),
   reporters: ["default"],
   coverageDirectory: "__coverage__",
   coverageThreshold: {
@@ -26,7 +23,7 @@ const config: Config = {
       lines: 75
     }
   },
-  collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}"],
+  collectCoverageFrom: ["src/**/*.{js,ts}"],
   coveragePathIgnorePatterns: ["/node_modules/"], // it's to ignore files dedicated for definition of mocked data structure for UT
   testPathIgnorePatterns: ["/node_modules/"], // it's to ignore files dedicated for definition of mocked data structure for UT
   moduleFileExtensions: ["ts", "js", "json", "node"],

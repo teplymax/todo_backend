@@ -5,11 +5,12 @@
   "main": "./index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "build": "tsc --project tsconfig.prod.json && tsc-alias -p tsconfig.json",
     "start": "NODE_ENV=production node dist/index.js",
     "dev": "NODE_ENV=development tsx watch index.ts",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --silent",
+    "test:clear-cache": "npx jest --clearCache",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "tsc": "tsc --noEmit",
