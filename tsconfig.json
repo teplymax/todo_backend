@@ -42,6 +42,12 @@
       "@db": [
         "./src/db/index"
       ],
+      "@__mocks__/*": [
+        "./__mocks__/*"
+      ],
+      "@__mocks__": [
+        "./__mocks__/index"
+      ],
       "@controllers/*": [
         "./src/controllers/*"
       ],

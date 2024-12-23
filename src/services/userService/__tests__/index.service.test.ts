@@ -1,18 +1,10 @@
+import { mockDB } from "@__mocks__/db";
 import { User } from "@db/entities/User.entity";
 import { APIError } from "@utils/errors/apiError";
 
 import { UserServiceInterface } from "../index.interface";
 
-const mockFindOne = jest.fn();
-const mockGetRepository = jest.fn().mockReturnValue({
-  findOne: mockFindOne
-});
-
-jest.mock("@db", () => ({
-  db: {
-    getRepository: mockGetRepository
-  }
-}));
+const { mockFindOne } = mockDB();
 
 const { db } = await import("@db");
 const { UserService } = await import("../index.service");
