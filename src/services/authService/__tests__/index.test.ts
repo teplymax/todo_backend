@@ -1,5 +1,9 @@
-import { AuthServiceSingleton } from "@services/authService";
-import { AuthService } from "@services/authService/index.service";
+import { mockDB } from "@__mocks__/db";
+
+mockDB();
+
+const { AuthServiceSingleton } = await import("..");
+const { AuthService } = await import("../index.service");
 
 describe("UserServiceSingleton tests", () => {
   it("should return one instance of UserService", () => {
