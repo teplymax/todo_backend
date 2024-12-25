@@ -27,7 +27,7 @@ export class AuthService implements AuthServiceInterface {
     const userByEmail = await usersRepository.findOne({ where: { email: data.email } });
     this.throwUserAlreadyExistsError(!!userByEmail, "email");
 
-    data.password = await bCrypt.hash(data.password, 10);
+    const encryptedPassword = await bCrypt.hash(data.password, 10);
     const encryptedVerificationCode = await bCrypt.hash(verificationCode, 10);
 
     let birthdayDate: Date | undefined;
@@ -38,6 +38,7 @@ export class AuthService implements AuthServiceInterface {
     const newUser = usersRepository.create({
       ...data,
       birthdayDate,
+      password: encryptedPassword,
       verificationCode: encryptedVerificationCode,
       registrationDate: new Date(),
       verified: false

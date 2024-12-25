@@ -18,8 +18,7 @@ export class MailerService implements MailerServiceInterface {
           from: "TODO ADMIN",
           to: emailAddress,
           subject: "Account verification",
-          html: `
-          <div>
+          html: `<div>
             <h2>Verify code:</h2>
             <h1>${verificationCode}</h1>
             <p>Don't tell this code to anyone!</p>
@@ -27,7 +26,7 @@ export class MailerService implements MailerServiceInterface {
         },
         (error) => {
           if (!error) {
-            resolve(`${verificationCode}`);
+            resolve(verificationCode);
           }
 
           resolve(error?.message ?? "Error during email sending process");

@@ -22,6 +22,8 @@ describe("UserService tests", () => {
     service = new UserService();
   });
 
+  afterEach(jest.clearAllMocks);
+
   it("should return user correctly", async () => {
     mockFindOne.mockResolvedValueOnce(mockUser);
 

@@ -10,7 +10,6 @@ export function validationMiddleware(validator: keyof typeof VALIDATORS) {
       const { body } = req;
 
       const schema = VALIDATORS[validator];
-
       await schema.validate(body);
 
       next();

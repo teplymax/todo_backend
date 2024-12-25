@@ -147,7 +147,6 @@ describe("TokenService tests", () => {
     it("saveToken should update existing entity if one found", async () => {
       const tokenEntity = { ...mockTokenEntity };
       mockFindOne.mockResolvedValueOnce(tokenEntity);
-      mockSave.mockResolvedValueOnce({ ...tokenEntity, refreshToken: mockSignedToken });
 
       const result = await service.saveToken(mockUserId, mockSignedToken);
 
@@ -167,7 +166,6 @@ describe("TokenService tests", () => {
 
     it("saveToken should create and save new entity if it's not found", async () => {
       mockFindOne.mockResolvedValueOnce(null);
-      mockSave.mockResolvedValueOnce(mockTokenEntity);
       mockCreate.mockReturnValueOnce(mockTokenEntity);
 
       const result = await service.saveToken(mockUserId, mockSignedToken);
