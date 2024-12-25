@@ -11,14 +11,12 @@ const mockController: AuthControllerInterface = {
   resendVerification: jest.fn(),
   verify: jest.fn()
 };
-
 jest.mock("@controllers/AuthController", () => ({
   authController: mockController
 }));
 
 const mockRegisterValidator = jest.fn();
 const mockLoginValidator = jest.fn();
-
 jest.mock("@middlewares/validation.middleware", () => ({
   validationMiddleware: jest.fn().mockImplementation((validator) => {
     if (validator === "registerValidator") {
@@ -30,7 +28,6 @@ jest.mock("@middlewares/validation.middleware", () => ({
 }));
 
 const mockPost = jest.fn();
-
 jest.mock("express", () => ({
   default: {
     Router: jest.fn().mockReturnValue({

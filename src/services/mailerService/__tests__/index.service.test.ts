@@ -5,7 +5,6 @@ import { MailerServiceInterface } from "../index.interface";
 const mockTransporter = {
   sendMail: jest.fn()
 };
-
 jest.mock("nodemailer", () => ({
   default: {
     createTransport: jest.fn().mockReturnValue(mockTransporter)

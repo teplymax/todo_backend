@@ -9,7 +9,6 @@ import { TokenServiceInterface } from "../index.interface";
 const mockSign = jest.fn();
 const mockVerify = jest.fn();
 const mockDecode = jest.fn();
-
 jest.mock("jsonwebtoken", () => ({
   default: {
     sign: mockSign,

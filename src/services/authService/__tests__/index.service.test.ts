@@ -9,7 +9,6 @@ const { mockFindOne, mockCreate, mockSave, mockUpdate } = mockDB();
 
 const mockHash = jest.fn().mockImplementation((value) => `${value}_hashed`);
 const mockCompare = jest.fn();
-
 jest.mock("bcrypt", () => ({
   default: {
     hash: mockHash,

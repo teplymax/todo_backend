@@ -3,14 +3,12 @@ import { mockDB } from "@__mocks__/db";
 mockDB();
 
 const mockAuthRouter = jest.fn();
-
 jest.mock("@routes/auth.router", () => ({
   default: mockAuthRouter
 }));
 
 const mockGet = jest.fn();
 const mockUse = jest.fn();
-
 jest.mock("express", () => ({
   default: {
     Router: jest.fn().mockReturnValue({

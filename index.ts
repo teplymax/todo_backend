@@ -1,6 +1,6 @@
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express from "express";
+import express, { json } from "express";
 
 import config from "@config/index";
 import apiRouter from "@routes";
@@ -9,7 +9,7 @@ import { errorHandler } from "@utils/errors/errorHandler";
 const app = express();
 const port = config.port;
 
-app.use(express.json());
+app.use(json());
 app.use(cookieParser());
 app.use(cors());
 

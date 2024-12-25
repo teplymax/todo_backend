@@ -24,7 +24,7 @@ const config: Config = {
     }
   },
   collectCoverageFrom: ["src/**/*.{js,ts}"],
-  coveragePathIgnorePatterns: ["/node_modules/"], // it's to ignore files dedicated for definition of mocked data structure for UT
+  coveragePathIgnorePatterns: ["/node_modules/", "/db/", "/config/", "/types/"], // it's to ignore files dedicated for definition of mocked data structure for UT
   testPathIgnorePatterns: ["/node_modules/"], // it's to ignore files dedicated for definition of mocked data structure for UT
   moduleFileExtensions: ["ts", "js", "json", "node"],
   modulePathIgnorePatterns: ["<rootDir>/.*/__mocks__"],
