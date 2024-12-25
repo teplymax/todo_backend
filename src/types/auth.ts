@@ -33,3 +33,8 @@ export interface GenericSuccessfulLoginResponse {
 export interface RefreshTokenResponse {
   accessToken: string;
 }
+
+export interface VerificationEmailWorkerData {
+  email: string;
+  code: string;
+}
