@@ -1,11 +1,9 @@
 import express from "express";
 
+import { db } from "@db";
+import { Todo } from "@db/entities/Todo.entity";
 import { authMiddleware } from "@middlewares/auth.middleware";
-
-import { db } from "../db";
-import { Todo } from "../db/entities/Todo.entity";
-
-import authRouter from "./auth.router";
+import authRouter from "@routes/auth.router";
 
 const apiRouter = express.Router();
 
