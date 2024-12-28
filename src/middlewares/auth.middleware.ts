@@ -14,6 +14,8 @@ export async function authMiddleware(req: Request, _res: Response, next: NextFun
 
     next();
   } catch (error) {
+    console.log(error);
+
     if (error instanceof APIError) {
       const additionalInfo = `${error.message}|${error.additionalInfo || ""}`;
 
