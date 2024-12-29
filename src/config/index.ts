@@ -9,6 +9,7 @@ const IS_TEST = process.env.NODE_ENV === "test";
 const ENV_PATH_MAP: Record<Environment, string> = {
   development: ".env",
   test: ".env.test",
+  test_ci: ".env.test.ci",
   production: ".env"
 };
 

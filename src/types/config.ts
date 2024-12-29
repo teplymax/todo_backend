@@ -34,4 +34,4 @@ export interface Config {
   readonly mailer: MailerConfig;
 }
 
-export type Environment = "development" | "production" | "test";
+export type Environment = "development" | "production" | "test" | "test_ci";
