@@ -28,6 +28,12 @@ const mockTokenPayload: TokenPayload = {
   email: "email"
 };
 
+const mockTokenPayloadWithExp = {
+  ...mockTokenPayload,
+  iat: 123,
+  exp: 123
+};
+
 const mockSignedToken = "mockSignedToken";
 
 const mockUserId = "mockUserId";
@@ -42,7 +48,7 @@ describe("TokenService tests", () => {
 
   beforeAll(() => {
     mockSign.mockReturnValue(mockSignedToken);
-    mockDecode.mockReturnValue(mockTokenPayload);
+    mockDecode.mockReturnValue(mockTokenPayloadWithExp);
     service = new TokenService();
   });
 
@@ -104,7 +110,7 @@ describe("TokenService tests", () => {
       "verifyToken should verify token correctly",
       async (tokenType) => {
         const expectedSecret = config.jwt[tokenType].secret;
-        mockJwtVerify(null, mockTokenPayload);
+        mockJwtVerify(null, mockTokenPayloadWithExp);
 
         const result = service.verifyToken({ tokenType, token: mockSignedToken });
 
@@ -119,7 +125,7 @@ describe("TokenService tests", () => {
         error: {
           message: "error occurred"
         },
-        decoded: mockTokenPayload
+        decoded: mockTokenPayloadWithExp
       },
       //There is no result decoded
       {

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import _ from "lodash";
 
 import config from "@config/index";
 import { Token } from "@db/entities/Token.entity";
@@ -14,6 +15,10 @@ export class TokenService implements TokenServiceInterface {
 
   constructor() {
     this.jwtConfig = config.jwt;
+  }
+
+  private omitTokenParams(decoded: object) {
+    return _.omit(decoded, ["iat", "exp"]) as TokenPayload;
   }
 
   generateTokens(payload: TokenPayload, accessTokenOnly = false) {
@@ -38,7 +43,7 @@ export class TokenService implements TokenServiceInterface {
 
       jwt.verify(token, secret, (error, decoded) => {
         if (!error && decoded) {
-          resolve(decoded as TokenPayload);
+          resolve(this.omitTokenParams(decoded as object));
         } else {
           reject(new APIError("Invalid token.", 401, error?.message));
         }
@@ -47,7 +52,7 @@ export class TokenService implements TokenServiceInterface {
   }
 
   decodeToken(token: string) {
-    return jwt.decode(token) as TokenPayload;
+    return this.omitTokenParams(jwt.decode(token) as object);
   }
 
   async saveToken(userId: string, refreshToken: string) {

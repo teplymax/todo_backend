@@ -61,10 +61,12 @@ jest.mock("@services/tokenService", () => ({
 }));
 
 const mockGetUserById = jest.fn().mockResolvedValue(mockUser);
+const mockDeleteUnverifiedUsers = jest.fn();
 jest.mock("@services/userService", () => ({
   UserServiceSingleton: {
     getInstance: () => ({
-      getUserById: mockGetUserById
+      getUserById: mockGetUserById,
+      deleteUnverifiedUsers: mockDeleteUnverifiedUsers
     })
   }
 }));
@@ -72,6 +74,11 @@ jest.mock("@services/userService", () => ({
 const mockWorker = jest.fn();
 jest.mock("worker_threads", () => ({
   Worker: mockWorker
+}));
+
+const mockCronJob = jest.fn();
+jest.mock("cron", () => ({
+  CronJob: mockCronJob
 }));
 
 const mockRegister = jest.fn().mockResolvedValue(mockUser);
@@ -93,6 +100,10 @@ const { authController } = await import("@controllers/AuthController/index");
 
 describe("AuthController tests", () => {
   afterEach(jest.clearAllMocks);
+
+  it("should register cron job to delete unverified users from db every 24 hours", () => {
+    expect(mockCronJob).toHaveBeenCalledWith("0 0 * * *", mockDeleteUnverifiedUsers, null, true);
+  });
 
   describe("register tests", () => {
     it("should register user and send access token and user as a success response", async () => {

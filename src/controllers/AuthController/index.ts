@@ -1,5 +1,6 @@
 import { Worker } from "worker_threads";
 
+import { CronJob } from "cron";
 import { Response } from "express";
 
 import config from "@config/index";
@@ -22,6 +23,10 @@ import { extractTokenFromAuthHeader, parseTokenExpTimeToMs } from "@utils/string
 import { AuthControllerInterface } from "./index.interface";
 
 class AuthController implements AuthControllerInterface {
+  constructor() {
+    new CronJob("0 0 * * *", UserServiceSingleton.getInstance().deleteUnverifiedUsers, null, true);
+  }
+
   private sendAuthorizedUserResponse(
     res: Response<BaseResponse<GenericSuccessfulLoginResponse>>,
     payload: GenericSuccessfulLoginResponse & {
@@ -165,6 +170,7 @@ class AuthController implements AuthControllerInterface {
     }
   };
 
+  //Improve for multisessions management
   logout: AppRequestHandler = async (req, res, next) => {
     try {
       const token = extractTokenFromAuthHeader(req.headers.authorization ?? "");
