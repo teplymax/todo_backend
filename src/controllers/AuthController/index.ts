@@ -6,6 +6,7 @@ import config from "@config/index";
 import { AuthServiceSingleton } from "@services/authService";
 import { UserMapper } from "@services/authService/user.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
+import { UserServiceSingleton } from "@services/userService";
 import {
   GenericSuccessfulLoginResponse,
   LoginPayload,
@@ -78,7 +79,7 @@ class AuthController implements AuthControllerInterface {
     try {
       const token = extractTokenFromAuthHeader(req.headers.authorization ?? "");
 
-      const tokenPayload = await TokenServiceSingleton.getInstance().verifyToken({ token, tokenType: "accessToken" });
+      const tokenPayload = TokenServiceSingleton.getInstance().decodeToken(token);
       const user = await AuthServiceSingleton.getInstance().verify(req.body, tokenPayload.id);
       const { accessToken, refreshToken } = TokenServiceSingleton.getInstance().generateTokens({
         id: user.id,
@@ -110,7 +111,7 @@ class AuthController implements AuthControllerInterface {
 
         this.sendAuthorizedUserResponse(res, {
           accessToken,
-          user,
+          user: UserMapper.getInstance().map(user),
           refreshToken: user.token.refreshToken ?? ""
         });
       } catch (error) {
@@ -136,8 +137,13 @@ class AuthController implements AuthControllerInterface {
     try {
       const token = extractTokenFromAuthHeader(req.headers.authorization ?? "");
 
-      const { id, email, nickname } = TokenServiceSingleton.getInstance().decodeToken(token);
-      const { accessToken } = TokenServiceSingleton.getInstance().generateTokens({ id, email, nickname }, true);
+      const tokenPayload = TokenServiceSingleton.getInstance().decodeToken(token);
+      const user = await UserServiceSingleton.getInstance().getUserById(tokenPayload.id);
+      await TokenServiceSingleton.getInstance().verifyToken({
+        token: user?.token?.refreshToken ?? "",
+        tokenType: "refreshToken"
+      });
+      const { accessToken } = TokenServiceSingleton.getInstance().generateTokens(tokenPayload, true);
 
       res.status(200).json(generateResponse<RefreshTokenResponse>({ accessToken }));
     } catch (error) {
@@ -149,7 +155,7 @@ class AuthController implements AuthControllerInterface {
     try {
       const token = extractTokenFromAuthHeader(req.headers.authorization ?? "");
 
-      const tokenPayload = await TokenServiceSingleton.getInstance().verifyToken({ token, tokenType: "accessToken" });
+      const tokenPayload = TokenServiceSingleton.getInstance().decodeToken(token);
       const verificationCode = await AuthServiceSingleton.getInstance().resendVerification(tokenPayload.id);
       this.sendVerificationEmail(tokenPayload.email, verificationCode);
 
@@ -163,7 +169,7 @@ class AuthController implements AuthControllerInterface {
     try {
       const token = extractTokenFromAuthHeader(req.headers.authorization ?? "");
 
-      const tokenPayload = await TokenServiceSingleton.getInstance().verifyToken({ token, tokenType: "accessToken" });
+      const tokenPayload = TokenServiceSingleton.getInstance().decodeToken(token);
       await TokenServiceSingleton.getInstance().removeToken(tokenPayload.id);
 
       res.clearCookie("refreshToken").status(200).json(generateResponse());

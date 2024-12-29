@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 
-type MockedRequestObject = {
-  body: unknown;
+type MockedRequestObject<B = unknown> = {
+  body: B;
   headers: Partial<Request["headers"]>;
 };
 
-export function mockRequestObject({ body, headers }: Partial<MockedRequestObject>) {
+export function mockRequestObject<B>({ body, headers }: Partial<MockedRequestObject<B>>) {
   return {
     body,
     headers
-  } as unknown as Request;
+  } as unknown as Request<Record<string, string>, unknown, B>;
 }
 
 export function mockResponseObject() {

@@ -26,6 +26,10 @@ jest.mock("@middlewares/validation.middleware", () => ({
     }
   })
 }));
+const mockAuthMidleware = jest.fn();
+jest.mock("@middlewares/auth.middleware", () => ({
+  authMiddleware: mockAuthMidleware
+}));
 
 const mockPost = jest.fn();
 jest.mock("express", () => ({
@@ -42,21 +46,17 @@ const express = await import("express");
 describe("Root router tests", () => {
   it("should register /register route", () => {
     expect(express.default.Router).toHaveBeenCalled();
-  });
-
-  it("should register /auth route", () => {
-    expect(express.default.Router).toHaveBeenCalled();
     expect(mockPost).toHaveBeenCalledWith("/register", mockRegisterValidator, mockController.register);
   });
 
   it("should register /verify route", () => {
     expect(express.default.Router).toHaveBeenCalled();
-    expect(mockPost).toHaveBeenCalledWith("/verify", mockController.verify);
+    expect(mockPost).toHaveBeenCalledWith("/verify", mockAuthMidleware, mockController.verify);
   });
 
   it("should register /resendVerification route", () => {
     expect(express.default.Router).toHaveBeenCalled();
-    expect(mockPost).toHaveBeenCalledWith("/resendVerification", mockController.resendVerification);
+    expect(mockPost).toHaveBeenCalledWith("/resendVerification", mockAuthMidleware, mockController.resendVerification);
   });
 
   it("should register /login route", () => {
@@ -66,7 +66,7 @@ describe("Root router tests", () => {
 
   it("should register /logout route", () => {
     expect(express.default.Router).toHaveBeenCalled();
-    expect(mockPost).toHaveBeenCalledWith("/logout", mockController.logout);
+    expect(mockPost).toHaveBeenCalledWith("/logout", mockAuthMidleware, mockController.logout);
   });
 
   it("should register /refresh route", () => {

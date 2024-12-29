@@ -1,8 +1,8 @@
 import { BaseResponse } from "@typeDeclarations/common";
 
-export function generateResponse<P = undefined>(payload?: P): BaseResponse<P> {
+export function generateResponse<P = undefined>(payload?: P, success = true): BaseResponse<P> {
   return {
-    success: true,
+    success,
     payload
   };
 }

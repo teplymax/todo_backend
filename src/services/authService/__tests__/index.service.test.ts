@@ -265,7 +265,7 @@ describe("AuthService tests", () => {
   });
 
   describe("resendVerification tests", () => {
-    it("should resend verification code if user found", async () => {
+    it("should resend verification code and update user's verification code in db if user found", async () => {
       mockFindOne.mockResolvedValueOnce(mockUser);
 
       const result = await service.resendVerification(mockUser.id);
@@ -277,7 +277,11 @@ describe("AuthService tests", () => {
         }
       });
       expect(mockHash).toHaveBeenCalledWith(mockVerificationCode.toString(), 10);
-      expect(result).toEqual(`${mockVerificationCode}_hashed`);
+      expect(mockUpdate).toHaveBeenCalledWith(mockUser.id, {
+        ...mockUser,
+        verificationCode: `${mockVerificationCode}_hashed`
+      });
+      expect(result).toEqual(`${mockVerificationCode}`);
     });
 
     it("should throw an error if there is no user found", async () => {

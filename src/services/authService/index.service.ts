@@ -84,7 +84,10 @@ export class AuthService implements AuthServiceInterface {
       throw new APIError("Verification code expired. User was deleted.", 404);
     }
 
-    return await bCrypt.hash(`${verificationCode}`, 10);
+    user.verificationCode = await bCrypt.hash(`${verificationCode}`, 10);
+    await usersRepository.update(user.id, user);
+
+    return `${verificationCode}`;
   }
 
   async login(payload: LoginPayload) {
