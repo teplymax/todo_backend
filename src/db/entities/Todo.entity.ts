@@ -2,6 +2,6 @@ import { Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Todo {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   title: string;
 }

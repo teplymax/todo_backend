@@ -1,15 +1,68 @@
 {
   "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "Node16",
+    "target": "ESNext",
+    "module": "ESNext",
     "outDir": "./dist",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": ".",
+    "types": [
+      "jest"
+    ],
+    "paths": {
+      "@typeDeclarations/*": [
+        "./src/types/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@routes/*": [
+        "./src/routes/*"
+      ],
+      "@routes": [
+        "./src/routes/index"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@config": [
+        "./src/config/index"
+      ],
+      "@db/*": [
+        "./src/db/*"
+      ],
+      "@db": [
+        "./src/db/index"
+      ],
+      "@__mocks__/*": [
+        "./__mocks__/*"
+      ],
+      "@__mocks__": [
+        "./__mocks__/index"
+      ],
+      "@controllers/*": [
+        "./src/controllers/*"
+      ],
+      "@middlewares/*": [
+        "./src/middlewares/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ]
+    }
+  },
+  "exclude": [
+    "./node_modules"
+  ],
+  "tsc-alias": {
+    "resolveFullPaths": true
   }
 }
