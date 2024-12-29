@@ -59,7 +59,7 @@ export class AuthService implements AuthServiceInterface {
       throw new APIError("Verification code expired. User was deleted.", 404);
     }
 
-    const isValidCode = await bCrypt.compare(payload.verificationCode, user?.verificationCode as string);
+    const isValidCode = await bCrypt.compare(payload.verificationCode, (user?.verificationCode ?? "") as string);
     if (!isValidCode) {
       throw new APIError("Invalid code. Please try again.", 400);
     }

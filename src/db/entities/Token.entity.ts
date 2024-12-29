@@ -4,7 +4,7 @@ import { User } from "./User.entity";
 
 @Entity()
 export class Token {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column({ nullable: true, type: "text" })
