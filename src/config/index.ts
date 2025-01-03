@@ -7,10 +7,9 @@ const IS_DEV = process.env.NODE_ENV === "development";
 const IS_TEST = process.env.NODE_ENV === "test";
 
 const ENV_PATH_MAP: Record<Environment, string> = {
+  production: ".env",
   development: ".env",
-  test: ".env.test",
-  test_ci: ".env.test.ci",
-  production: ".env"
+  test: ".env.test"
 };
 
 dotenv.config({ path: ENV_PATH_MAP[process.env.NODE_ENV] });
