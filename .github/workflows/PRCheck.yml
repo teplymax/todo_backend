@@ -7,7 +7,6 @@ on:
 jobs:
   Validation:
     runs-on: ubuntu-latest
-    environment: ci
 
     strategy:
       matrix:
@@ -20,21 +19,22 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+
     - name: Setup environment variables
       uses: SpicyPizza/create-envfile@v2.0.3
       with:
-        envkey_PORT: ${{secrets.PORT}}
-        envkey_DB_NAME: ${{secrets.DB_NAME}}
-        envkey_DB_PORT: ${{secrets.DB_PORT}}
-        envkey_DB_HOST: ${{secrets.DB_HOST}}
-        envkey_DB_USER_NAME: ${{secrets.DB_USER_NAME}}
-        envkey_DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-        envkey_JWT_ACCESS_SECRET: ${{secrets.JWT_ACCESS_SECRET}}
-        envkey_JWT_REFRESH_SECRET: ${{secrets.JWT_REFRESH_SECRET}}
-        envkey_JWT_ACCESS_EXPIRATION_TIME: ${{secrets.JWT_ACCESS_EXPIRATION_TIME}}
-        envkey_JWT_REFRESH_EXPIRATION_TIME: ${{secrets.JWT_REFRESH_EXPIRATION_TIME}}
-        envkey_MAILER_USER: ${{secrets.MAILER_USER}}
-        envkey_MAILER_PASSWORD: ${{secrets.MAILER_PASSWORD}}
+        envkey_PORT: ${{vars.CI_PORT}}
+        envkey_DB_NAME: ${{vars.CI_DB_NAME}}
+        envkey_DB_PORT: ${{vars.CI_DB_PORT}}
+        envkey_DB_HOST: ${{vars.CI_DB_HOST}}
+        envkey_DB_USER_NAME: ${{vars.CI_DB_USER_NAME}}
+        envkey_DB_PASSWORD: ${{vars.CI_DB_PASSWORD}}
+        envkey_JWT_ACCESS_SECRET: ${{vars.CI_JWT_ACCESS_SECRET}}
+        envkey_JWT_REFRESH_SECRET: ${{vars.CI_JWT_REFRESH_SECRET}}
+        envkey_JWT_ACCESS_EXPIRATION_TIME: ${{vars.CI_JWT_ACCESS_EXPIRATION_TIME}}
+        envkey_JWT_REFRESH_EXPIRATION_TIME: ${{vars.CI_JWT_REFRESH_EXPIRATION_TIME}}
+        envkey_MAILER_USER: ${{vars.CI_MAILER_USER}}
+        envkey_MAILER_PASSWORD: ${{vars.CI_MAILER_PASSWORD}}
         file_name: .env.test
 
     - name: Install dependencies
