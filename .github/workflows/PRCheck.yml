@@ -35,6 +35,7 @@ jobs:
         envkey_JWT_REFRESH_EXPIRATION_TIME: ${{secrets.JWT_REFRESH_EXPIRATION_TIME}}
         envkey_MAILER_USER: ${{secrets.MAILER_USER}}
         envkey_MAILER_PASSWORD: ${{secrets.MAILER_PASSWORD}}
+        file_name: .env.test
 
     - name: Install dependencies
       run: npm install
