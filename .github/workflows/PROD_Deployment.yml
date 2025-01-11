@@ -1,0 +1,63 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  Deployment:
+    runs-on: ubuntu-latest
+    environment: production
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Create SSH key
+      run: |
+          mkdir -p ~/.ssh/
+          echo "${{secrets.SERVER_SSH_PRIVATE_KEY}}" > ~/.ssh/server_ssh_key
+          echo "${{secrets.SERVER_SSH_PUBLIC_KEY}}" > ~/.ssh/server_ssh_key.pub
+          sudo chmod 600 ~/.ssh/server_ssh_key
+          sudo chmod 600 ~/.ssh/server_ssh_key.pub
+          echo "${{secrets.SERVER_SSH_KNOWN_HOSTS}}" > ~/.ssh/known_hosts
+
+    - name: Setup environment variables
+      uses: SpicyPizza/create-envfile@v2.0.3
+      with:
+        envkey_PORT: ${{ secrets.PORT }}
+        envkey_DB_NAME: ${{ secrets.DB_NAME }}
+        envkey_DB_PORT: ${{ secrets.DB_PORT }}
+        envkey_DB_HOST: ${{ secrets.DB_HOST }}
+        envkey_DB_USER_NAME: ${{ secrets.DB_USER_NAME }}
+        envkey_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        envkey_DB_CA_CERTIFICATE: ${{ secrets.DB_CA_CERTIFICATE }}
+        envkey_JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+        envkey_JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+        envkey_JWT_ACCESS_EXPIRATION_TIME: ${{ secrets.JWT_ACCESS_EXPIRATION_TIME }}
+        envkey_JWT_REFRESH_EXPIRATION_TIME: ${{ secrets.JWT_REFRESH_EXPIRATION_TIME }}
+        envkey_MAILER_USER: ${{ secrets.MAILER_USER }}
+        envkey_MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}
+        file_name: .env
+        
+    - name: Inject environment variables to server
+      run: scp -o StrictHostKeyChecking=no -i ~/.ssh/server_ssh_key ./.env root@167.99.5.50:~/todo_backend/
+
+    - name: Deploy build
+      run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/server_ssh_key root@167.99.5.50 '
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd ~/todo_backend &&
+            git pull origin master &&
+            npm install && npm run build && 
+            pm2 restart "todo-server"
+          '
