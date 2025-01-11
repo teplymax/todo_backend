@@ -3,6 +3,11 @@ interface DBConfig {
   password: string;
   host: string;
   port: number;
+  ssl:
+    | {
+        ca: string;
+      }
+    | undefined;
   database: string;
   dropSchema: boolean;
 }

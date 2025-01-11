@@ -24,7 +24,12 @@ const config: Config = {
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     database: process.env.DB_NAME,
-    dropSchema: IS_TEST
+    dropSchema: IS_TEST,
+    ssl: IS_PROD
+      ? {
+          ca: process.env.DB_CA_CERTIFICATE
+        }
+      : undefined
   },
 
   jwt: {

@@ -10,6 +10,7 @@ declare global {
       DB_HOST: string;
       DB_USER_NAME: string;
       DB_PASSWORD: string;
+      DB_CA_CERTIFICATE: string;
       JWT_ACCESS_SECRET: string;
       JWT_REFRESH_SECRET: string;
       JWT_ACCESS_EXPIRATION_TIME: string;
