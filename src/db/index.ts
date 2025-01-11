@@ -6,7 +6,7 @@ import config, { IS_PROD } from "@config";
 
 async function initializeDatabase() {
   const ext = path.extname(import.meta.url);
-  const rootDir = IS_PROD ? "src/dist" : "src";
+  const rootDir = IS_PROD ? "dist/src" : "src";
 
   const db = new DataSource({
     ...config.db,
