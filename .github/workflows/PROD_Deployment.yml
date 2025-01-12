@@ -26,6 +26,7 @@ jobs:
       run: |
           git config --global user.email "ci_@example.com"
           git config --global user.name "CI_BOT"
+          git remote set-url origin git@github.com:teplymax/todo_backend.git
 
     - name: Create SSH key
       run: |
