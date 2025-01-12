@@ -2,10 +2,11 @@ name: Deployment
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "step/versioning_in_cd_pipeline" ]
 
 jobs:
   Deployment:
+    if: ${{ !contains(github.event.head_commit.message, 'CI | Bump version') }}
     runs-on: ubuntu-latest
     environment: production
 
@@ -21,8 +22,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         
-    # - name: Versioning
-    #   run: 
+    - name: Stup git config
+      run: |
+          git config --global user.email "ci_@example.com"
+          git config --global user.name "CI_BOT"
+          git config core.sshCommand 'ssh -i ~/.ssh/server_ssh_key'
+          git remote set-url origin git@github.com:teplymax/todo_backend.git
 
     - name: Create SSH key
       run: |
@@ -32,6 +37,13 @@ jobs:
           sudo chmod 600 ~/.ssh/server_ssh_key
           sudo chmod 600 ~/.ssh/server_ssh_key.pub
           echo "${{secrets.SERVER_SSH_KNOWN_HOSTS}}" > ~/.ssh/known_hosts
+
+    - name: Versioning
+      run: |
+          echo "${{ github.event.head_commit.message }}"
+          commit="${{ github.event.head_commit.message }}"
+          commitParts=(${commit//|/ })
+          npm version ${commitParts[0]} -m "CI | Bump version" && git push && git push --tags
 
     - name: Setup environment variables
       uses: SpicyPizza/create-envfile@v2.0.3
