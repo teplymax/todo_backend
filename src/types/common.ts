@@ -5,10 +5,12 @@ export interface BaseResponse<P = undefined> {
   success: boolean;
 }
 
+export type ParamsDictionary = Record<string, string>;
+
 export type AppRequestHandler<
   ResponsePayload = unknown,
   RequestBody = unknown,
-  RequestParams = unknown,
+  RequestParams extends ParamsDictionary = ParamsDictionary,
   RequestQueryParams = unknown
 > = RequestHandler<
   RequestParams,

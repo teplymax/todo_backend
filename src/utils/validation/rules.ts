@@ -5,7 +5,7 @@ export const validationRules = {
   nickname: yup
     .string()
     .min(2, "Nickname should have 2 symbols or more")
-    .test("password", "Nickname shouldn't consist of spaces", (value) => !value?.includes(" ")),
+    .test("nickname", "Nickname shouldn't consist of spaces", (value) => !value?.includes(" ")),
   name: yup.string().matches(/^[a-z ,.'’-]+$/i, "Name should consist of alphabets only"),
   surname: yup.string().matches(/^[a-z ,.'’-]+$/i, "Surname should consist of alphabets only"),
   password: yup
@@ -32,5 +32,6 @@ export const validationRules = {
 
       return isValidNickname;
     })
-    .test("password", "Login shouldn't consist of spaces", (value) => !value?.includes(" "))
+    .test("password", "Login shouldn't consist of spaces", (value) => !value?.includes(" ")),
+  categoryName: yup.string().min(2, "CategoryName should have 2 symbols or more")
 };
