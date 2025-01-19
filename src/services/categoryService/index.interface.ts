@@ -1,6 +1,6 @@
 import { Category } from "@db/entities/Category.entity";
 import { User } from "@db/entities/User.entity";
-import { CreateCategoryPayload, EditCategoryPayload } from "@typeDeclarations/categories";
+import { CreateCategoryPayload, EditCategoryPayload } from "@typeDeclarations/category";
 
 export interface CategoryServiceInterface {
   getCategories: (userId: string) => Promise<Category[]>;

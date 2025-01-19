@@ -16,12 +16,12 @@ categoryRouter.post(
 );
 
 categoryRouter.post(
-  "/edit/:id",
+  "/edit/:categoryId",
   authMiddleware,
   validationMiddleware("editCategoryValidator"),
   categoryController.editCategory
 );
 
-categoryRouter.delete("/delete/:id", authMiddleware, categoryController.deleteCategory);
+categoryRouter.delete("/delete/:categoryId", authMiddleware, categoryController.deleteCategory);
 
 export default categoryRouter;

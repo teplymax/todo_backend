@@ -1,16 +1,16 @@
 import { Category } from "@db/entities/Category.entity";
 import { User } from "@db/entities/User.entity";
 import { db } from "@db/index";
-import { CreateCategoryPayload, EditCategoryPayload } from "@typeDeclarations/categories";
+import { CreateCategoryPayload, EditCategoryPayload } from "@typeDeclarations/category";
 import { APIError } from "@utils/errors/apiError";
 
 import { CategoryServiceInterface } from "./index.interface";
 
 export class CategoryService implements CategoryServiceInterface {
   async getCategories(userId: string) {
-    const categoriesRepository = db.getRepository(Category);
+    const categoryRepository = db.getRepository(Category);
 
-    return await categoriesRepository.find({
+    return await categoryRepository.find({
       where: {
         user: {
           id: userId
@@ -20,20 +20,20 @@ export class CategoryService implements CategoryServiceInterface {
   }
 
   async createCategory(payload: CreateCategoryPayload, user: User) {
-    const categoriesRepository = db.getRepository(Category);
+    const categoryRepository = db.getRepository(Category);
 
     const category = new Category();
 
     category.name = payload.name;
     category.user = user;
 
-    return await categoriesRepository.save(category);
+    return await categoryRepository.save(category);
   }
 
   async editCategory(payload: EditCategoryPayload, categoryId: string) {
-    const categoriesRepository = db.getRepository(Category);
+    const categoryRepository = db.getRepository(Category);
 
-    const category = await categoriesRepository.findOne({
+    const category = await categoryRepository.findOne({
       where: {
         id: categoryId
       }
@@ -44,15 +44,15 @@ export class CategoryService implements CategoryServiceInterface {
     }
 
     category.name = payload.name;
-    await categoriesRepository.update(category.id, category);
+    await categoryRepository.update(category.id, category);
 
     return category;
   }
 
   async deleteCategory(categoryId: string) {
-    const categoriesRepository = db.getRepository(Category);
+    const categoryRepository = db.getRepository(Category);
 
-    const category = await categoriesRepository.findOne({
+    const category = await categoryRepository.findOne({
       where: {
         id: categoryId
       }
@@ -62,7 +62,7 @@ export class CategoryService implements CategoryServiceInterface {
       throw new APIError("Category not found.", 404);
     }
 
-    await categoriesRepository.remove(category);
+    await categoryRepository.remove(category);
 
     return categoryId;
   }

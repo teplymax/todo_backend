@@ -9,7 +9,7 @@ import {
   EditCategoryPayload,
   EditCategoryResponse,
   GetCategoriesResponse
-} from "@typeDeclarations/categories";
+} from "@typeDeclarations/category";
 import { AppRequestHandler } from "@typeDeclarations/common";
 import { generateResponse } from "@utils/common/generateResponse";
 import { extractTokenFromAuthHeader } from "@utils/stringUtils";

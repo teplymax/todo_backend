@@ -33,5 +33,8 @@ export const validationRules = {
       return isValidNickname;
     })
     .test("password", "Login shouldn't consist of spaces", (value) => !value?.includes(" ")),
-  categoryName: yup.string().min(2, "CategoryName should have 2 symbols or more")
+  categoryName: yup.string().min(2, "categoryName should have 2 symbols or more"),
+  todoTitle: yup.string().min(2, "Todo title should have 2 symbols or more"),
+  todoDescription: yup.string().min(1, "Todo title should have 1 symbol or more"),
+  todoCategories: yup.array().of(yup.string())
 };

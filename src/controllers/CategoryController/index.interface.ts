@@ -6,7 +6,7 @@ import {
   EditCategoryPayload,
   EditCategoryResponse,
   GetCategoriesResponse
-} from "@typeDeclarations/categories";
+} from "@typeDeclarations/category";
 import { AppRequestHandler } from "@typeDeclarations/common";
 
 export interface CategoryControllerInterface {
