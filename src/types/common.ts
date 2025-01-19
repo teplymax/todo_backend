@@ -21,3 +21,7 @@ export type AppRequestHandler<
 export interface Mapper<D, T, Props = unknown> {
   map(data: D, props?: Props): T;
 }
+
+export interface Cookies {
+  refreshToken: string;
+}

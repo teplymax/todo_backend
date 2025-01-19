@@ -48,17 +48,23 @@ describe("authMiddleware tests", () => {
     {
       authorization: undefined
     }
-  ])("should pass request to next handler if token is valid and user exists", async (headers) => {
+  ])("should pass request to next handler if tokens are valid and user exists", async (headers) => {
     mockVerifyToken.mockResolvedValue(mockTokenPayload);
     mockGetUserById.mockResolvedValue(mockUser);
     const req = mockRequestObject({
-      headers
+      headers,
+      cookies: {
+        refreshToken: "refreshToken"
+      }
     });
     const expectedToken = extractTokenFromAuthHeader(headers.authorization ?? "");
 
     await authMiddleware(req, res, mockNextFunction);
+    const verifyRefreshToken = mockVerifyToken.mock.calls[0][0];
+    const verifyAccessToken = mockVerifyToken.mock.calls[1][0];
 
-    expect(mockVerifyToken).toHaveBeenCalledWith({ token: expectedToken, tokenType: "accessToken" });
+    expect(verifyRefreshToken).toEqual({ token: "refreshToken", tokenType: "refreshToken" });
+    expect(verifyAccessToken).toEqual({ token: expectedToken, tokenType: "accessToken" });
     expect(mockGetUserById).toHaveBeenCalledWith(mockTokenPayload.id);
     expect(mockNextFunction).toHaveBeenCalled();
     expect(mockNextFunction.mock.calls[0]).toHaveLength(0);
