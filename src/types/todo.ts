@@ -23,7 +23,7 @@ export interface CreateTodoResponse {
   todo: Todo;
 }
 
-export interface EditTodoPayload extends TodoPayload {
+export interface EditTodoPayload extends Partial<TodoPayload> {
   categories?: Array<string>;
 }
 

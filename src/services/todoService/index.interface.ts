@@ -7,6 +7,6 @@ export interface TodoServiceInterface {
   getTodos: (userId: string) => Promise<Todo[]>;
   getTodoById: (todoId: string) => Promise<Todo>;
   createTodo: (payload: TodoPayload, user: User, categories?: Category[]) => Promise<Todo>;
-  editTodo: (payload: TodoPayload, todoId: string, categories?: Category[]) => Promise<Todo>;
+  editTodo: (payload: Partial<TodoPayload>, todoId: string, categories?: Category[]) => Promise<Todo>;
   deleteTodo: (todoId: string) => Promise<string>;
 }

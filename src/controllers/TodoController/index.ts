@@ -86,7 +86,7 @@ class TodoController implements TodoControllerInterface {
         categories = await CategoryServiceSingleton.getInstance().getCategories(userId);
       }
 
-      const todo = await TodoServiceSingleton.getInstance().editTodo(req.body, req.params.TodoId, categories);
+      const todo = await TodoServiceSingleton.getInstance().editTodo(req.body, req.params.todoId, categories);
 
       res.status(200).json(
         generateResponse({

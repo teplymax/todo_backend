@@ -23,7 +23,6 @@ export class CategoryService implements CategoryServiceInterface {
     const categoryRepository = db.getRepository(Category);
 
     const category = new Category();
-
     category.name = payload.name;
     category.user = user;
 
@@ -38,7 +37,6 @@ export class CategoryService implements CategoryServiceInterface {
         id: categoryId
       }
     });
-
     if (!category) {
       throw new APIError("Category not found.", 404);
     }
@@ -57,7 +55,6 @@ export class CategoryService implements CategoryServiceInterface {
         id: categoryId
       }
     });
-
     if (!category) {
       throw new APIError("Category not found.", 404);
     }
