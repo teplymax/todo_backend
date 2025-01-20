@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinTable } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinTable, type Relation } from "typeorm";
 
 import { User } from "./User.entity";
 
@@ -12,5 +12,5 @@ export class Category {
 
   @ManyToOne(() => User, (user) => user.categories)
   @JoinTable()
-  user: User;
+  user: Relation<User>;
 }

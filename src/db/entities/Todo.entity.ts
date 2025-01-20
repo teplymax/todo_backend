@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, type Relation } from "typeorm";
 
 import { Category } from "./Category.entity";
 import { User } from "./User.entity";
@@ -16,9 +16,9 @@ export class Todo {
 
   @ManyToMany(() => Category)
   @JoinTable()
-  categories: Category[];
+  categories: Relation<Category>[];
 
   @ManyToOne(() => User, (user) => user.categories)
   @JoinTable()
-  user: User;
+  user: Relation<User>;
 }

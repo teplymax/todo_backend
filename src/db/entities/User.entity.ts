@@ -41,8 +41,8 @@ export class User {
   token: Relation<Token>;
 
   @OneToMany(() => Todo, (todo) => todo.user)
-  todos: Todo[];
+  todos: Relation<Todo>[];
 
   @OneToMany(() => Category, (category) => category.user)
-  categories: Category[];
+  categories: Relation<Category>[];
 }
