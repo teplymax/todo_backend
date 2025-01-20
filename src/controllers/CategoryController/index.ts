@@ -1,4 +1,5 @@
 import { CategoryServiceSingleton } from "@services/categoryService";
+import { CategoryMapper } from "@services/categoryService/category.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
 import { UserServiceSingleton } from "@services/userService";
 import {
@@ -47,7 +48,7 @@ class CategoryController implements CategoryControllerInterface {
 
       res.status(201).json(
         generateResponse({
-          category
+          category: CategoryMapper.getInstance().map(category)
         })
       );
     } catch (error) {
@@ -65,7 +66,7 @@ class CategoryController implements CategoryControllerInterface {
 
       res.status(200).json(
         generateResponse({
-          category
+          category: CategoryMapper.getInstance().map(category)
         })
       );
     } catch (error) {

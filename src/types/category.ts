@@ -11,7 +11,7 @@ export interface CreateCategoryPayload {
 }
 
 export interface CreateCategoryResponse {
-  category: Category;
+  category: MappedCategory;
 }
 
 export interface EditCategoryPayload {
@@ -19,7 +19,7 @@ export interface EditCategoryPayload {
 }
 
 export interface EditCategoryResponse {
-  category: Category;
+  category: MappedCategory;
 }
 
 export interface DeleteCategoryResponse {
@@ -29,3 +29,5 @@ export interface DeleteCategoryResponse {
 export interface CategoryIdParams extends ParamsDictionary {
   categoryId: string;
 }
+
+export type MappedCategory = Omit<Category, "user">;

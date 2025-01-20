@@ -14,7 +14,8 @@ export class TodoService implements TodoServiceInterface {
     const todo = await todoRepository.findOne({
       where: {
         id: todoId
-      }
+      },
+      relations: ["categories"]
     });
     if (!todo) {
       throw new APIError("Todo not found.", 404);
@@ -31,7 +32,8 @@ export class TodoService implements TodoServiceInterface {
         user: {
           id: userId
         }
-      }
+      },
+      relations: ["categories"]
     });
   }
 
@@ -51,11 +53,11 @@ export class TodoService implements TodoServiceInterface {
 
   async editTodo(payload: Partial<TodoPayload>, todoId: string, categories?: Category[]) {
     const todoRepository = db.getRepository(Todo);
-
     const todo = await todoRepository.findOne({
       where: {
         id: todoId
-      }
+      },
+      relations: ["categories"]
     });
     if (!todo) {
       throw new APIError("Todo not found.", 404);
@@ -64,16 +66,20 @@ export class TodoService implements TodoServiceInterface {
     if (categories) {
       todo.categories = categories;
     }
-    await todoRepository.update(todo.id, {
-      ...todo,
-      ...payload
-    });
 
-    return todo;
+    const newTodo = {
+      ...todo,
+      ...payload,
+      categories: todo.categories
+    };
+
+    await todoRepository.save(newTodo);
+
+    return newTodo;
   }
 
   async deleteTodo(todoId: string) {
-    const todoRepository = db.getRepository(Category);
+    const todoRepository = db.getRepository(Todo);
 
     const todo = await todoRepository.findOne({
       where: {

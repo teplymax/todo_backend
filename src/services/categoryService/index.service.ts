@@ -7,6 +7,20 @@ import { APIError } from "@utils/errors/apiError";
 import { CategoryServiceInterface } from "./index.interface";
 
 export class CategoryService implements CategoryServiceInterface {
+  async getCategoriesByIds(userId: string, categoriesIds: string[]) {
+    const categoryRepository = db.getRepository(Category);
+
+    const categories = await categoryRepository.find({
+      where: {
+        user: {
+          id: userId
+        }
+      }
+    });
+
+    return categories.filter((item) => JSON.stringify(categoriesIds).includes(item.id));
+  }
+
   async getCategories(userId: string) {
     const categoryRepository = db.getRepository(Category);
 

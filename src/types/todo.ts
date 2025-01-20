@@ -3,11 +3,11 @@ import { Todo } from "@db/entities/Todo.entity";
 import { ParamsDictionary } from "./common";
 
 export interface GetTodoResponse {
-  todo: Todo;
+  todo: MappedTodo;
 }
 
 export interface GetTodosResponse {
-  todos: Todo[];
+  todos: MappedTodo[];
 }
 
 export interface TodoPayload {
@@ -20,7 +20,7 @@ export interface CreateTodoPayload extends TodoPayload {
 }
 
 export interface CreateTodoResponse {
-  todo: Todo;
+  todo: MappedTodo;
 }
 
 export interface EditTodoPayload extends Partial<TodoPayload> {
@@ -28,7 +28,7 @@ export interface EditTodoPayload extends Partial<TodoPayload> {
 }
 
 export interface EditTodoResponse {
-  todo: Todo;
+  todo: MappedTodo;
 }
 
 export interface DeleteTodoResponse {
@@ -38,3 +38,5 @@ export interface DeleteTodoResponse {
 export interface TodoIdParams extends ParamsDictionary {
   todoId: string;
 }
+
+export type MappedTodo = Omit<Todo, "user">;

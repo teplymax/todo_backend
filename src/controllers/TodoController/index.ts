@@ -1,6 +1,7 @@
 import { Category } from "@db/entities/Category.entity";
 import { CategoryServiceSingleton } from "@services/categoryService";
 import { TodoServiceSingleton } from "@services/todoService";
+import { TodoMapper } from "@services/todoService/todo.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
 import { UserServiceSingleton } from "@services/userService";
 import { AppRequestHandler } from "@typeDeclarations/common";
@@ -32,7 +33,7 @@ class TodoController implements TodoControllerInterface {
 
       res.status(200).json(
         generateResponse({
-          todo
+          todo: TodoMapper.getInstance().map(todo)
         })
       );
     } catch (error) {
@@ -47,7 +48,7 @@ class TodoController implements TodoControllerInterface {
 
       res.status(200).json(
         generateResponse({
-          todos
+          todos: todos.map(TodoMapper.getInstance().map)
         })
       );
     } catch (error) {
@@ -61,7 +62,7 @@ class TodoController implements TodoControllerInterface {
       let categories: Array<Category> | undefined;
 
       if (req.body.categories) {
-        categories = await CategoryServiceSingleton.getInstance().getCategories(userId);
+        categories = await CategoryServiceSingleton.getInstance().getCategoriesByIds(userId, req.body.categories);
       }
 
       const user = await UserServiceSingleton.getInstance().getUserById(userId);
@@ -69,7 +70,7 @@ class TodoController implements TodoControllerInterface {
 
       res.status(201).json(
         generateResponse({
-          todo
+          todo: TodoMapper.getInstance().map(todo)
         })
       );
     } catch (error) {
@@ -83,14 +84,14 @@ class TodoController implements TodoControllerInterface {
       let categories: Array<Category> | undefined;
 
       if (req.body.categories) {
-        categories = await CategoryServiceSingleton.getInstance().getCategories(userId);
+        categories = await CategoryServiceSingleton.getInstance().getCategoriesByIds(userId, req.body.categories);
       }
 
       const todo = await TodoServiceSingleton.getInstance().editTodo(req.body, req.params.todoId, categories);
 
       res.status(200).json(
         generateResponse({
-          todo
+          todo: TodoMapper.getInstance().map(todo)
         })
       );
     } catch (error) {
