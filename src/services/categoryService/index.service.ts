@@ -22,6 +22,15 @@ export class CategoryService implements CategoryServiceInterface {
   async createCategory(payload: CreateCategoryPayload, user: User) {
     const categoryRepository = db.getRepository(Category);
 
+    const categoryByName = await categoryRepository.findOne({
+      where: {
+        name: payload.name
+      }
+    });
+    if (categoryByName) {
+      throw new APIError("Category already exists.", 400);
+    }
+
     const category = new Category();
     category.name = payload.name;
     category.user = user;
