@@ -9,19 +9,19 @@ const categoryRouter = express.Router();
 categoryRouter.get("/", authMiddleware, categoryController.getCategories);
 
 categoryRouter.post(
-  "/create",
+  "/",
   authMiddleware,
   validationMiddleware("createCategoryValidator"),
   categoryController.createCategory
 );
 
-categoryRouter.post(
-  "/edit/:categoryId",
+categoryRouter.patch(
+  "/:categoryId",
   authMiddleware,
   validationMiddleware("editCategoryValidator"),
   categoryController.editCategory
 );
 
-categoryRouter.delete("/delete/:categoryId", authMiddleware, categoryController.deleteCategory);
+categoryRouter.delete("/:categoryId", authMiddleware, categoryController.deleteCategory);
 
 export default categoryRouter;

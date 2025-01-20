@@ -10,10 +10,10 @@ todoRouter.get("/", authMiddleware, todoController.getTodos);
 
 todoRouter.get("/:todoId", authMiddleware, todoController.getTodo);
 
-todoRouter.post("/create", authMiddleware, validationMiddleware("createTodoValidator"), todoController.createTodo);
+todoRouter.post("/", authMiddleware, validationMiddleware("createTodoValidator"), todoController.createTodo);
 
-todoRouter.post("/edit/:todoId", authMiddleware, validationMiddleware("editTodoValidator"), todoController.editTodo);
+todoRouter.patch("/:todoId", authMiddleware, validationMiddleware("editTodoValidator"), todoController.editTodo);
 
-todoRouter.delete("/delete/:todoId", authMiddleware, todoController.deleteTodo);
+todoRouter.delete("/:todoId", authMiddleware, todoController.deleteTodo);
 
 export default todoRouter;
