@@ -41,7 +41,7 @@ export class TodoService implements TodoServiceInterface {
     const todoRepository = db.getRepository(Todo);
 
     const todo = new Todo();
-    if (categories) {
+    if (categories?.length) {
       todo.categories = categories;
     }
     todo.title = payload.title;
@@ -63,7 +63,7 @@ export class TodoService implements TodoServiceInterface {
       throw new APIError("Todo not found.", 404);
     }
 
-    if (categories) {
+    if (categories?.length) {
       todo.categories = categories;
     }
 
