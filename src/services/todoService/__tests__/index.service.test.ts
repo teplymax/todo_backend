@@ -106,7 +106,7 @@ describe("TodoService tests", () => {
         categories: [mockCategory]
       }
     ])("should edit Todo correctly", async ({ payload, categories }) => {
-      const mockSavedTodo = { ...mockTodo, ...payload, id: mockTodo.id, categories };
+      const mockSavedTodo = { ...mockTodo, ...payload, categories };
       mockSave.mockResolvedValueOnce(mockSavedTodo);
       mockFindOne.mockResolvedValueOnce(mockTodo);
 
