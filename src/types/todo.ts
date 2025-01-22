@@ -16,7 +16,7 @@ export interface TodoPayload {
 }
 
 export interface CreateTodoPayload extends TodoPayload {
-  categories: Array<string>;
+  categories?: Array<string>;
 }
 
 export interface CreateTodoResponse {

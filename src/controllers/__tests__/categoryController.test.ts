@@ -174,7 +174,7 @@ describe("CategoryController tests", () => {
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(
         generateResponse({
-          category: mockUpdatedCategory
+          category: CategoryMapper.getInstance().map({ ...mockUpdatedCategory, user: mockUser })
         })
       );
     });

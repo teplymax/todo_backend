@@ -66,7 +66,7 @@ class CategoryController implements CategoryControllerInterface {
 
       res.status(200).json(
         generateResponse({
-          category
+          category: CategoryMapper.getInstance().map(category)
         })
       );
     } catch (error) {
