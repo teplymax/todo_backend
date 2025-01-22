@@ -43,7 +43,7 @@ jest.mock("express", () => ({
 await import("../auth.router");
 const express = await import("express");
 
-describe("Root router tests", () => {
+describe("Auth router tests", () => {
   it("should register /register route", () => {
     expect(express.default.Router).toHaveBeenCalled();
     expect(mockPost).toHaveBeenCalledWith("/register", mockRegisterValidator, mockController.register);

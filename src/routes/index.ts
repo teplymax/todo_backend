@@ -1,23 +1,15 @@
 import express from "express";
 
-import { db } from "@db";
-import { Todo } from "@db/entities/Todo.entity";
-import { authMiddleware } from "@middlewares/auth.middleware";
-import authRouter from "@routes/auth.router";
+import authRouter from "./auth.router";
+import categoryRouter from "./category.router";
+import todoRouter from "./todo.router";
 
 const apiRouter = express.Router();
 
-apiRouter.get("/helloWorld", authMiddleware, async (_req, res) => {
-  try {
-    const todos = await db.getRepository(Todo).find();
-
-    res.status(200).json({ todos });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
 apiRouter.use("/auth", authRouter);
+
+apiRouter.use("/category", categoryRouter);
+
+apiRouter.use("/todo", todoRouter);
 
 export default apiRouter;

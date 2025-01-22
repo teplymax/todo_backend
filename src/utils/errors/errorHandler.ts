@@ -20,6 +20,10 @@ function buildErrorObject(error: APIError): BaseErrorObject {
 }
 
 export function errorHandler(error: unknown, _req: Request, res: Response<ErrorResponse>, _next: NextFunction) {
+  if (IS_DEV) {
+    console.log(error);
+  }
+
   if (error instanceof APIError) {
     res.status(error.status).json({
       success: false,
