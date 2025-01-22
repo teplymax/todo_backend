@@ -27,7 +27,7 @@ describe("CategoryMapper tests", () => {
     const result = CategoryMapper.getInstance().map(originalCategory);
 
     expect(result).toEqual({
-      name: " name",
+      name: "name",
       id: "id"
     });
   });
