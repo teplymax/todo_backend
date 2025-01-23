@@ -2,6 +2,7 @@ import { Category } from "@db/entities/Category.entity";
 import { Todo } from "@db/entities/Todo.entity";
 import { User } from "@db/entities/User.entity";
 import { db } from "@db/index";
+import { PaginationQueryParams, PaginationResult } from "@typeDeclarations/common";
 import { TodoPayload } from "@typeDeclarations/todo";
 import { APIError } from "@utils/errors/apiError";
 
@@ -24,8 +25,38 @@ export class TodoService implements TodoServiceInterface {
     return todo;
   }
 
-  async getTodos(userId: string) {
+  //TODO: Find a way to make pagination logic reusable
+  getTodos(userId: string, pagination?: PaginationQueryParams): Promise<PaginationResult<Todo[]>>;
+  getTodos(userId: string): Promise<Todo[]>;
+  async getTodos(userId: string, pagination?: PaginationQueryParams): Promise<Todo[] | PaginationResult<Todo[]>> {
     const todoRepository = db.getRepository(Todo);
+
+    if (pagination?.limit && pagination?.page) {
+      const { limit, page: currentPage } = pagination;
+      const indexToStartFrom = currentPage > 0 ? (currentPage - 1) * limit : 0;
+
+      const [data, total] = await todoRepository.findAndCount({
+        where: {
+          user: {
+            id: userId
+          }
+        },
+        skip: indexToStartFrom,
+        take: pagination.limit,
+        relations: ["categories"]
+      });
+
+      const prevPage = pagination.page > 1 ? currentPage - 1 : null;
+      const nextPage = indexToStartFrom + limit <= total ? currentPage + 1 : null;
+
+      return {
+        prevPage,
+        nextPage,
+        currentPage,
+        total,
+        data
+      };
+    }
 
     return await todoRepository.find({
       where: {

@@ -1,14 +1,16 @@
 import { Todo } from "@db/entities/Todo.entity";
 
-import { ParamsDictionary } from "./common";
+import { PaginationResult, ParamsDictionary } from "./common";
 
 export interface GetTodoResponse {
   todo: MappedTodo;
 }
 
-export interface GetTodosResponse {
-  todos: MappedTodo[];
-}
+export type GetTodosResponse =
+  | {
+      todos: MappedTodo[];
+    }
+  | PaginationResult<MappedTodo[]>;
 
 export interface TodoPayload {
   title: string;

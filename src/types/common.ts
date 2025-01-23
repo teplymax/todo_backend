@@ -27,3 +27,16 @@ export interface Mapper<D, T, Props = unknown> {
 export interface Cookies {
   refreshToken: string;
 }
+
+export interface PaginationResult<Data> {
+  prevPage: number | null;
+  currentPage: number;
+  nextPage: number | null;
+  data: Data;
+  total: number;
+}
+
+export interface PaginationQueryParams {
+  page?: number;
+  limit?: number;
+}

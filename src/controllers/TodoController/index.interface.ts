@@ -1,4 +1,4 @@
-import { AppRequestHandler } from "@typeDeclarations/common";
+import { AppRequestHandler, PaginationQueryParams, ParamsDictionary } from "@typeDeclarations/common";
 import {
   TodoIdParams,
   CreateTodoPayload,
@@ -12,7 +12,7 @@ import {
 
 export interface TodoControllerInterface {
   getTodo: AppRequestHandler<GetTodoResponse, unknown, TodoIdParams>;
-  getTodos: AppRequestHandler<GetTodosResponse>;
+  getTodos: AppRequestHandler<GetTodosResponse, unknown, ParamsDictionary, PaginationQueryParams>;
   createTodo: AppRequestHandler<CreateTodoResponse, CreateTodoPayload>;
   editTodo: AppRequestHandler<EditTodoResponse, EditTodoPayload, TodoIdParams>;
   deleteTodo: AppRequestHandler<DeleteTodoResponse, unknown, TodoIdParams>;

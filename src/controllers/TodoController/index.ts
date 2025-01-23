@@ -4,7 +4,7 @@ import { TodoServiceSingleton } from "@services/todoService";
 import { TodoMapper } from "@services/todoService/todo.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
 import { UserServiceSingleton } from "@services/userService";
-import { AppRequestHandler } from "@typeDeclarations/common";
+import { AppRequestHandler, PaginationQueryParams, ParamsDictionary } from "@typeDeclarations/common";
 import {
   TodoIdParams,
   CreateTodoPayload,
@@ -41,16 +41,30 @@ class TodoController implements TodoControllerInterface {
     }
   };
 
-  getTodos: AppRequestHandler<GetTodosResponse> = async (req, res, next) => {
+  getTodos: AppRequestHandler<GetTodosResponse, unknown, ParamsDictionary, PaginationQueryParams> = async (
+    req,
+    res,
+    next
+  ) => {
     try {
       const userId = this.getUserId(req.headers.authorization ?? "");
-      const todos = await TodoServiceSingleton.getInstance().getTodos(userId);
 
-      res.status(200).json(
-        generateResponse({
-          todos: todos.map(TodoMapper.getInstance().map)
-        })
-      );
+      if (req.query.limit && req.query.page) {
+        const { data, ...metadata } = await TodoServiceSingleton.getInstance().getTodos(userId, req.query);
+        res.status(200).json(
+          generateResponse({
+            data: data.map(TodoMapper.getInstance().map),
+            ...metadata
+          })
+        );
+      } else {
+        const todos = await TodoServiceSingleton.getInstance().getTodos(userId);
+        res.status(200).json(
+          generateResponse({
+            todos: todos.map(TodoMapper.getInstance().map)
+          })
+        );
+      }
     } catch (error) {
       next(error);
     }
