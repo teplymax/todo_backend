@@ -1,18 +1,25 @@
 import { Request, Response } from "express";
 
-import { Cookies, ParamsDictionary } from "@typeDeclarations/common";
+import { Cookies, ParamsDictionary, ParsedQs } from "@typeDeclarations/common";
 
-type MockedRequestObject<Body = unknown, Params extends ParamsDictionary = ParamsDictionary> = {
+type MockedRequestObject<
+  Body = unknown,
+  Params extends ParamsDictionary = ParamsDictionary,
+  RequestQueryParams = ParsedQs
+> = {
   body: Body;
   headers: Partial<Request["headers"]>;
   cookies: Cookies;
   params: Params;
+  query: RequestQueryParams;
 };
 
-export function mockRequestObject<Body, Params extends ParamsDictionary = ParamsDictionary>(
-  req: Partial<MockedRequestObject<Body, Params>>
-) {
-  return req as unknown as Request<Params, unknown, Body>;
+export function mockRequestObject<
+  Body,
+  Params extends ParamsDictionary = ParamsDictionary,
+  RequestQueryParams = ParsedQs
+>(req: Partial<MockedRequestObject<Body, Params>>) {
+  return req as unknown as Request<Params, unknown, Body, RequestQueryParams>;
 }
 
 export function mockResponseObject() {

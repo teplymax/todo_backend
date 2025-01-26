@@ -1,4 +1,5 @@
 import { mockDB } from "@__mocks__/db";
+import { mockPagination } from "@__mocks__/pagination";
 import { Category } from "@db/entities/Category.entity";
 import { Todo } from "@db/entities/Todo.entity";
 import { User } from "@db/entities/User.entity";
@@ -6,9 +7,11 @@ import { APIError } from "@utils/errors/apiError";
 
 import { TodoServiceInterface } from "../index.interface";
 
-const { mockFindOne, mockFind, mockRemove, mockSave } = mockDB();
+const { mockFindOne, mockRemove, mockSave } = mockDB();
+const { mockPaginatedFind } = mockPagination();
 
 const { db } = await import("@db");
+
 const { TodoService } = await import("../index.service");
 
 const mockTodo = {
@@ -58,12 +61,11 @@ describe("TodoService tests", () => {
 
   describe("getTodos tests", () => {
     it("should return Todos correctly", async () => {
-      mockFind.mockResolvedValueOnce([mockTodo]);
+      mockPaginatedFind.mockResolvedValueOnce([mockTodo]);
 
       const result = service.getTodos(mockUser.id);
 
-      expect(db.getRepository).toHaveBeenCalledWith(Todo);
-      expect(mockFind).toHaveBeenCalledWith({
+      expect(mockPaginatedFind).toHaveBeenCalledWith({
         where: {
           user: {
             id: mockUser.id

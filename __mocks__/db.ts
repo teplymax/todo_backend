@@ -1,6 +1,7 @@
 export function mockDB() {
   const mockFindOne = jest.fn();
   const mockFind = jest.fn();
+  const mockFindAndCount = jest.fn();
   const mockSave = jest.fn().mockImplementation((value) => value);
   const mockCreate = jest.fn().mockImplementation((value) => value);
   const mockRemove = jest.fn();
@@ -8,6 +9,7 @@ export function mockDB() {
 
   const mockGetRepository = jest.fn().mockReturnValue({
     find: mockFind,
+    findAndCount: mockFindAndCount,
     findOne: mockFindOne,
     save: mockSave,
     create: mockCreate,
@@ -23,6 +25,7 @@ export function mockDB() {
 
   return {
     mockFind,
+    mockFindAndCount,
     mockFindOne,
     mockSave,
     mockCreate,

@@ -4,7 +4,7 @@ import { DataSource, type EntityTarget, type FindManyOptions, type ObjectLiteral
 import { PaginationResult } from "@typeDeclarations/common";
 
 export function withPagination<Service extends object, Entity extends ObjectLiteral>(entity: Entity, db: DataSource) {
-  return function (_target: Service, key: keyof Service, descriptor: PropertyDescriptor) {
+  return function (_target: Service, _key: keyof Service, descriptor: PropertyDescriptor) {
     const originalValue = descriptor.value;
     descriptor.value = function (...args: unknown[]) {
       const paginationParams = args[args.length - 1] as object;
@@ -13,7 +13,7 @@ export function withPagination<Service extends object, Entity extends ObjectLite
         const repository = db.getRepository(entity as unknown as EntityTarget<Entity>);
 
         if (
-          paginationParams &&
+          typeof paginationParams === "object" &&
           "limit" in paginationParams &&
           "page" in paginationParams &&
           _.isNumber(paginationParams.limit) &&
@@ -29,7 +29,7 @@ export function withPagination<Service extends object, Entity extends ObjectLite
           });
 
           const prevPage = currentPage > 1 ? currentPage - 1 : null;
-          const nextPage = indexToStartFrom + limit <= total ? currentPage + 1 : null;
+          const nextPage = indexToStartFrom + limit < total ? currentPage + 1 : null;
 
           return {
             prevPage,

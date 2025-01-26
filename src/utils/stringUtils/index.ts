@@ -16,7 +16,7 @@ export function parseTokenExpTimeToMs(expTime: string): number {
   return parseFloat(expTime) * 60 * 1000;
 }
 
-export function parsePaginnationQueryParams({ limit, page }: PaginationQueryParams): PaginationConfig | undefined {
+export function parsePaginationQueryParams({ limit, page }: PaginationQueryParams): PaginationConfig | undefined {
   const parsedLimit = Number(limit);
   const parsedPage = Number(page);
 

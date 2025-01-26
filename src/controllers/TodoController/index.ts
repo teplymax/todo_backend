@@ -16,7 +16,7 @@ import {
   GetTodosResponse
 } from "@typeDeclarations/todo";
 import { generateResponse } from "@utils/common/generateResponse";
-import { extractTokenFromAuthHeader, parsePaginnationQueryParams } from "@utils/stringUtils";
+import { extractTokenFromAuthHeader, parsePaginationQueryParams } from "@utils/stringUtils";
 
 import { TodoControllerInterface } from "./index.interface";
 
@@ -49,7 +49,7 @@ class TodoController implements TodoControllerInterface {
     try {
       let response: GetTodosResponse;
       const userId = this.getUserId(req.headers.authorization ?? "");
-      const pagination = parsePaginnationQueryParams(req.query);
+      const pagination = parsePaginationQueryParams(req.query);
 
       const result = await TodoServiceSingleton.getInstance().getTodos(userId, pagination);
 

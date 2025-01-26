@@ -7,6 +7,10 @@ export interface BaseResponse<P = undefined> {
 
 export type ParamsDictionary = Record<string, string>;
 
+export interface ParsedQs {
+  [key: string]: undefined | string | string[] | ParsedQs | ParsedQs[];
+}
+
 export type AppRequestHandler<
   ResponsePayload = unknown,
   RequestBody = unknown,
