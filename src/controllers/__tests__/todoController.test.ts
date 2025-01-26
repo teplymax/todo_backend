@@ -3,11 +3,12 @@ import { Category } from "@db/entities/Category.entity";
 import { Todo } from "@db/entities/Todo.entity";
 import { User } from "@db/entities/User.entity";
 import { TodoMapper } from "@services/todoService/todo.mapper";
-import { CreateTodoPayload, EditTodoPayload, TodoIdParams } from "@typeDeclarations/todo";
+import { PaginationResult } from "@typeDeclarations/common";
+import { CreateTodoPayload, EditTodoPayload, GetTodosResponse, TodoIdParams } from "@typeDeclarations/todo";
 import { TokenPayload } from "@typeDeclarations/token";
 import { generateResponse } from "@utils/common/generateResponse";
 import { APIError } from "@utils/errors/apiError";
-import { extractTokenFromAuthHeader } from "@utils/stringUtils";
+import { extractTokenFromAuthHeader, parsePaginationQueryParams } from "@utils/stringUtils";
 
 const res = mockResponseObject();
 
@@ -131,34 +132,64 @@ describe("TodoController tests", () => {
   });
 
   describe("getTodos tests", () => {
-    it("should get todos and send them as a success response", async () => {
-      const req = mockRequestObject({
-        headers: mockHeaders
-      });
+    const query = {
+      limit: "1",
+      page: "2"
+    };
 
-      await todoController.getTodos(req, res, mockNextFunction);
+    it.each([
+      {
+        currentPage: 1,
+        nextPage: 2,
+        prevPage: null,
+        total: 20,
+        data: [mockTodo]
+      },
+      [mockTodo]
+    ] as (PaginationResult<Todo[]> | Todo[])[])(
+      "should get todos and send them as a success response",
+      async (result) => {
+        mockGetTodos.mockResolvedValue(result);
+        let expectedResponse: GetTodosResponse;
 
-      expect(mockDecodeToken).toHaveBeenCalledWith(extractTokenFromAuthHeader(mockHeaders.authorization));
-      expect(mockGetTodos).toHaveBeenCalledWith(mockTokenPayload.id);
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith(
-        generateResponse({
-          todos: [{ ...mockTodo, user: mockUser }].map(TodoMapper.getInstance().map)
-        })
-      );
-    });
+        if (Array.isArray(result)) {
+          expectedResponse = {
+            todos: result.map(TodoMapper.getInstance().map)
+          };
+        } else {
+          const { data, ...metadata } = result;
+          expectedResponse = {
+            data: data.map(TodoMapper.getInstance().map),
+            ...metadata
+          };
+        }
+
+        const req = mockRequestObject({
+          headers: mockHeaders,
+          query
+        });
+
+        await todoController.getTodos(req, res, mockNextFunction);
+
+        expect(mockDecodeToken).toHaveBeenCalledWith(extractTokenFromAuthHeader(mockHeaders.authorization));
+        expect(mockGetTodos).toHaveBeenCalledWith(mockTokenPayload.id, parsePaginationQueryParams(query));
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(generateResponse(expectedResponse));
+      }
+    );
 
     it("should pass request to error handler if error occurred", async () => {
       const mockError = new APIError("Error", 400);
       mockGetTodos.mockRejectedValue(mockError);
       const req = mockRequestObject({
-        headers: mockHeaders
+        headers: mockHeaders,
+        query
       });
 
       await todoController.getTodos(req, res, mockNextFunction);
 
       expect(mockDecodeToken).toHaveBeenCalledWith(extractTokenFromAuthHeader(mockHeaders.authorization));
-      expect(mockGetTodos).toHaveBeenCalledWith(mockTokenPayload.id);
+      expect(mockGetTodos).toHaveBeenCalledWith(mockTokenPayload.id, parsePaginationQueryParams(query));
       expect(res.status).not.toHaveBeenCalled();
       expect(res.json).not.toHaveBeenCalled();
       expect(mockNextFunction).toHaveBeenCalledWith(mockError);

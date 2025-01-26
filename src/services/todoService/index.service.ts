@@ -2,7 +2,9 @@ import { Category } from "@db/entities/Category.entity";
 import { Todo } from "@db/entities/Todo.entity";
 import { User } from "@db/entities/User.entity";
 import { db } from "@db/index";
+import { PaginationResult } from "@typeDeclarations/common";
 import { TodoPayload } from "@typeDeclarations/todo";
+import { getPaginatedFind, withPagination } from "@utils/common/paginationUtils";
 import { APIError } from "@utils/errors/apiError";
 
 import { TodoServiceInterface } from "./index.interface";
@@ -24,10 +26,11 @@ export class TodoService implements TodoServiceInterface {
     return todo;
   }
 
-  async getTodos(userId: string) {
-    const todoRepository = db.getRepository(Todo);
+  @withPagination(Todo, db)
+  async getTodos(userId: string, ...args: unknown[]): Promise<Todo[] | PaginationResult<Todo[]>> {
+    const find = getPaginatedFind<Todo>(args);
 
-    return await todoRepository.find({
+    return await find({
       where: {
         user: {
           id: userId

@@ -4,7 +4,7 @@ import { TodoServiceSingleton } from "@services/todoService";
 import { TodoMapper } from "@services/todoService/todo.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
 import { UserServiceSingleton } from "@services/userService";
-import { AppRequestHandler } from "@typeDeclarations/common";
+import { AppRequestHandler, PaginationQueryParams, ParamsDictionary } from "@typeDeclarations/common";
 import {
   TodoIdParams,
   CreateTodoPayload,
@@ -16,7 +16,7 @@ import {
   GetTodosResponse
 } from "@typeDeclarations/todo";
 import { generateResponse } from "@utils/common/generateResponse";
-import { extractTokenFromAuthHeader } from "@utils/stringUtils";
+import { extractTokenFromAuthHeader, parsePaginationQueryParams } from "@utils/stringUtils";
 
 import { TodoControllerInterface } from "./index.interface";
 
@@ -41,16 +41,31 @@ class TodoController implements TodoControllerInterface {
     }
   };
 
-  getTodos: AppRequestHandler<GetTodosResponse> = async (req, res, next) => {
+  getTodos: AppRequestHandler<GetTodosResponse, unknown, ParamsDictionary, PaginationQueryParams> = async (
+    req,
+    res,
+    next
+  ) => {
     try {
+      let response: GetTodosResponse;
       const userId = this.getUserId(req.headers.authorization ?? "");
-      const todos = await TodoServiceSingleton.getInstance().getTodos(userId);
+      const pagination = parsePaginationQueryParams(req.query);
 
-      res.status(200).json(
-        generateResponse({
-          todos: todos.map(TodoMapper.getInstance().map)
-        })
-      );
+      const result = await TodoServiceSingleton.getInstance().getTodos(userId, pagination);
+
+      if (Array.isArray(result)) {
+        response = {
+          todos: result.map(TodoMapper.getInstance().map)
+        };
+      } else {
+        const { data, ...metadata } = result;
+        response = {
+          data: data.map(TodoMapper.getInstance().map),
+          ...metadata
+        };
+      }
+
+      res.status(200).json(generateResponse(response));
     } catch (error) {
       next(error);
     }

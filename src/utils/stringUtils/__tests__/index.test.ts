@@ -1,4 +1,9 @@
-import { extractTokenFromAuthHeader, generateVerificationCode, parseTokenExpTimeToMs } from "..";
+import {
+  extractTokenFromAuthHeader,
+  generateVerificationCode,
+  parsePaginationQueryParams,
+  parseTokenExpTimeToMs
+} from "..";
 
 describe("String utils tests", () => {
   it("generateVerificationCode should generate 5 digit code", () => {
@@ -25,6 +30,35 @@ describe("String utils tests", () => {
     }
   ])("parseTokenExpTimeToMs should parse token expiration time correctly", ({ input, expectedOutput }) => {
     const result = parseTokenExpTimeToMs(input);
+
+    expect(result).toEqual(expectedOutput);
+  });
+
+  it.each([
+    {
+      input: {
+        limit: "10",
+        page: "2"
+      },
+      expectedOutput: {
+        limit: 10,
+        page: 2
+      }
+    },
+    {
+      input: {
+        limit: "10"
+      },
+      expectedOutput: undefined
+    },
+    {
+      input: {
+        page: "10"
+      },
+      expectedOutput: undefined
+    }
+  ])("parsePaginationQueryParams should parse query params correctly", ({ input, expectedOutput }) => {
+    const result = parsePaginationQueryParams(input);
 
     expect(result).toEqual(expectedOutput);
   });
