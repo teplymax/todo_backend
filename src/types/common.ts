@@ -36,7 +36,12 @@ export interface PaginationResult<Data> {
   total: number;
 }
 
-export interface PaginationQueryParams {
+export interface PaginationConfig {
   page?: number;
   limit?: number;
+}
+
+export interface PaginationQueryParams {
+  page?: string;
+  limit?: string;
 }

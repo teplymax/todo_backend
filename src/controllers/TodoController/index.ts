@@ -16,7 +16,7 @@ import {
   GetTodosResponse
 } from "@typeDeclarations/todo";
 import { generateResponse } from "@utils/common/generateResponse";
-import { extractTokenFromAuthHeader } from "@utils/stringUtils";
+import { extractTokenFromAuthHeader, parsePaginnationQueryParams } from "@utils/stringUtils";
 
 import { TodoControllerInterface } from "./index.interface";
 
@@ -47,24 +47,25 @@ class TodoController implements TodoControllerInterface {
     next
   ) => {
     try {
+      let response: GetTodosResponse;
       const userId = this.getUserId(req.headers.authorization ?? "");
+      const pagination = parsePaginnationQueryParams(req.query);
 
-      if (req.query.limit && req.query.page) {
-        const { data, ...metadata } = await TodoServiceSingleton.getInstance().getTodos(userId, req.query);
-        res.status(200).json(
-          generateResponse({
-            data: data.map(TodoMapper.getInstance().map),
-            ...metadata
-          })
-        );
+      const result = await TodoServiceSingleton.getInstance().getTodos(userId, pagination);
+
+      if (Array.isArray(result)) {
+        response = {
+          todos: result.map(TodoMapper.getInstance().map)
+        };
       } else {
-        const todos = await TodoServiceSingleton.getInstance().getTodos(userId);
-        res.status(200).json(
-          generateResponse({
-            todos: todos.map(TodoMapper.getInstance().map)
-          })
-        );
+        const { data, ...metadata } = result;
+        response = {
+          data: data.map(TodoMapper.getInstance().map),
+          ...metadata
+        };
       }
+
+      res.status(200).json(generateResponse(response));
     } catch (error) {
       next(error);
     }
