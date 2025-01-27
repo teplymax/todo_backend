@@ -1,4 +1,4 @@
-import { User } from "@db/entities/User.entity";
+import { MappedUser } from "./user";
 
 export interface RegisterPayload {
   email: string;
@@ -8,8 +8,6 @@ export interface RegisterPayload {
   surname?: string;
   birthdayDate?: string;
 }
-
-export type MappedUser = Omit<User, "verificationCode" | "password" | "token">;
 
 export interface RegisterResponse {
   accessToken: string;
