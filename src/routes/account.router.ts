@@ -10,4 +10,6 @@ accountRouter.get("/", authMiddleware, accountController.getAccount);
 
 accountRouter.patch("/", authMiddleware, validationMiddleware("editAccountValidator"), accountController.editAccount);
 
+accountRouter.delete("/", authMiddleware, accountController.deleteAccount);
+
 export default accountRouter;

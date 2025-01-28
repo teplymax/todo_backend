@@ -3,5 +3,6 @@ import { EditUserAccountPayload, EditUserAccountResponse, GetUserAccountResponse
 
 export interface AccountControllerInterface {
   getAccount: AppRequestHandler<GetUserAccountResponse>;
+  deleteAccount: AppRequestHandler;
   editAccount: AppRequestHandler<EditUserAccountResponse, EditUserAccountPayload>;
 }

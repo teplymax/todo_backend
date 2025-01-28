@@ -18,7 +18,7 @@ export class Todo {
   @JoinTable()
   categories: Relation<Category>[];
 
-  @ManyToOne(() => User, (user) => user.categories)
+  @ManyToOne(() => User, (user) => user.categories, { cascade: true, onDelete: "CASCADE" })
   @JoinTable()
   user: Relation<User>;
 }

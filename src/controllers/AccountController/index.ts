@@ -43,6 +43,17 @@ class AccountController implements AccountControllerInterface {
       next(error);
     }
   };
+
+  deleteAccount: AppRequestHandler = async (req, res, next) => {
+    try {
+      const userId = this.getUserId(req.headers.authorization ?? "");
+      await UserServiceSingleton.getInstance().deleteUser(userId);
+
+      res.status(200).json(generateResponse());
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export const accountController = new AccountController();

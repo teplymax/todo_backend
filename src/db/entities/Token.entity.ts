@@ -10,6 +10,6 @@ export class Token {
   @Column({ nullable: true, type: "text" })
   refreshToken: string | null;
 
-  @OneToOne(() => User, (user) => user.token)
+  @OneToOne(() => User, (user) => user.token, { cascade: true, onDelete: "CASCADE" })
   user: Relation<User>;
 }

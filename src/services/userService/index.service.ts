@@ -38,6 +38,16 @@ export class UserService implements UserServiceInterface {
     return user;
   }
 
+  async deleteUser(userId: string) {
+    const usersRepository = db.getRepository(User);
+
+    const user = await usersRepository.findOne({ where: { id: userId } });
+
+    if (!user) throw new APIError("User not found by given Id", 404);
+
+    usersRepository.remove(user);
+  }
+
   async deleteUnverifiedUsers() {
     const usersRepository = db.getRepository(User);
 
