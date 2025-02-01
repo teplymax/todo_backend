@@ -1,7 +1,7 @@
 import { mockNextFunction, mockRequestObject, mockResponseObject } from "@__mocks__/requestHandler";
 import config from "@config/index";
 import { User } from "@db/entities/User.entity";
-import { UserMapper } from "@services/authService/user.mapper";
+import { UserMapper } from "@services/userService/user.mapper";
 import { LoginPayload, RegisterPayload, VerifyPayload } from "@typeDeclarations/auth";
 import { TokenPayload } from "@typeDeclarations/token";
 import { generateResponse } from "@utils/common/generateResponse";

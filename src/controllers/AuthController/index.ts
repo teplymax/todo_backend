@@ -5,9 +5,9 @@ import { Response } from "express";
 
 import config from "@config/index";
 import { AuthServiceSingleton } from "@services/authService";
-import { UserMapper } from "@services/authService/user.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
 import { UserServiceSingleton } from "@services/userService";
+import { UserMapper } from "@services/userService/user.mapper";
 import {
   GenericSuccessfulLoginResponse,
   LoginPayload,

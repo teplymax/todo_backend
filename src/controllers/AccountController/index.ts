@@ -1,6 +1,6 @@
-import { UserMapper } from "@services/authService/user.mapper";
 import { TokenServiceSingleton } from "@services/tokenService";
 import { UserServiceSingleton } from "@services/userService";
+import { UserMapper } from "@services/userService/user.mapper";
 import { AppRequestHandler } from "@typeDeclarations/common";
 import { EditUserAccountPayload, EditUserAccountResponse, GetUserAccountResponse } from "@typeDeclarations/user";
 import { generateResponse } from "@utils/common/generateResponse";
@@ -32,7 +32,7 @@ class AccountController implements AccountControllerInterface {
   editAccount: AppRequestHandler<EditUserAccountResponse, EditUserAccountPayload> = async (req, res, next) => {
     try {
       const userId = this.getUserId(req.headers.authorization ?? "");
-      const user = await UserServiceSingleton.getInstance().editUserAccount(userId, req.body);
+      const user = await UserServiceSingleton.getInstance().editUser(userId, req.body);
 
       res.status(200).json(
         generateResponse({

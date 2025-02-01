@@ -18,24 +18,27 @@ export class UserService implements UserServiceInterface {
     return user;
   }
 
-  async editUserAccount(userId: string, payload: EditUserAccountPayload) {
+  async editUser(userId: string, payload: EditUserAccountPayload) {
     const usersRepository = db.getRepository(User);
 
     const user = await usersRepository.findOne({ where: { id: userId } });
 
     if (!user) throw new APIError("User not found by given Id", 404);
 
-    let birthdayDate: Date | undefined;
+    let birthdayDate: Date | undefined = user.birthdayDate;
     if (payload.birthdayDate) {
       birthdayDate = new Date(payload.birthdayDate);
     }
 
-    await usersRepository.update(userId, {
+    const updatedUser = {
+      ...user,
       ...payload,
       birthdayDate
-    });
+    };
 
-    return user;
+    await usersRepository.update(userId, updatedUser);
+
+    return updatedUser;
   }
 
   async deleteUser(userId: string) {
@@ -44,6 +47,8 @@ export class UserService implements UserServiceInterface {
     const user = await usersRepository.findOne({ where: { id: userId } });
 
     if (!user) throw new APIError("User not found by given Id", 404);
+
+    console.log(usersRepository.remove);
 
     usersRepository.remove(user);
   }
