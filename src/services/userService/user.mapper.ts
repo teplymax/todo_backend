@@ -1,8 +1,8 @@
 import _ from "lodash";
 
 import { User } from "@db/entities/User.entity";
-import { MappedUser } from "@typeDeclarations/auth";
 import { Mapper } from "@typeDeclarations/common";
+import { MappedUser } from "@typeDeclarations/user";
 
 export class UserMapper implements Mapper<User, MappedUser> {
   private static instance: UserMapper;

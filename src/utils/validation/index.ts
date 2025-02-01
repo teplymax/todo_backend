@@ -1,3 +1,4 @@
+import { editAccountValidator } from "./account/editAccountValidator";
 import { loginValidator } from "./auth/loginValidator";
 import { registerValidator } from "./auth/registerValidator";
 import { createCategoryValidator } from "./category/createCategoryValidator";
@@ -11,5 +12,6 @@ export const VALIDATORS = {
   createCategoryValidator,
   editCategoryValidator,
   createTodoValidator,
-  editTodoValidator
+  editTodoValidator,
+  editAccountValidator
 };

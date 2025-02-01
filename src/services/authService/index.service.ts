@@ -40,7 +40,6 @@ export class AuthService implements AuthServiceInterface {
       birthdayDate,
       password: encryptedPassword,
       verificationCode: encryptedVerificationCode,
-      registrationDate: new Date(),
       verified: false
     });
     const user = await usersRepository.save(newUser);

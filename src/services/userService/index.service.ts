@@ -2,6 +2,7 @@ import { LessThan } from "typeorm";
 
 import { db } from "@db";
 import { User } from "@db/entities/User.entity";
+import { EditUserAccountPayload } from "@typeDeclarations/user";
 import { APIError } from "@utils/errors/apiError";
 
 import { UserServiceInterface } from "./index.interface";
@@ -15,6 +16,39 @@ export class UserService implements UserServiceInterface {
     if (!user) throw new APIError("User not found by given Id", 404);
 
     return user;
+  }
+
+  async editUser(userId: string, payload: EditUserAccountPayload) {
+    const usersRepository = db.getRepository(User);
+
+    const user = await usersRepository.findOne({ where: { id: userId } });
+
+    if (!user) throw new APIError("User not found by given Id", 404);
+
+    let birthdayDate: Date | undefined = user.birthdayDate;
+    if (payload.birthdayDate) {
+      birthdayDate = new Date(payload.birthdayDate);
+    }
+
+    const updatedUser = {
+      ...user,
+      ...payload,
+      birthdayDate
+    };
+
+    await usersRepository.update(userId, updatedUser);
+
+    return updatedUser;
+  }
+
+  async deleteUser(userId: string) {
+    const usersRepository = db.getRepository(User);
+
+    const user = await usersRepository.findOne({ where: { id: userId } });
+
+    if (!user) throw new APIError("User not found by given Id", 404);
+
+    usersRepository.remove(user);
   }
 
   async deleteUnverifiedUsers() {
