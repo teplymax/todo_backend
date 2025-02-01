@@ -47,9 +47,11 @@ class AccountController implements AccountControllerInterface {
   deleteAccount: AppRequestHandler = async (req, res, next) => {
     try {
       const userId = this.getUserId(req.headers.authorization ?? "");
-      await UserServiceSingleton.getInstance().deleteUser(userId);
 
-      res.status(200).json(generateResponse());
+      await UserServiceSingleton.getInstance().deleteUser(userId);
+      await TokenServiceSingleton.getInstance().removeToken(userId);
+
+      res.clearCookie("refreshToken").status(200).json(generateResponse());
     } catch (error) {
       next(error);
     }

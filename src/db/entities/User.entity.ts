@@ -1,4 +1,13 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, type Relation } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  type Relation
+} from "typeorm";
 
 import { Category } from "./Category.entity";
 import { Todo } from "./Todo.entity";
@@ -30,6 +39,7 @@ export class User {
   @Column({ nullable: true, type: "text" })
   verificationCode: string | null;
 
+  @CreateDateColumn()
   @Column({ type: "timestamptz" })
   registrationDate: Date;
 

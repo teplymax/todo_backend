@@ -48,8 +48,6 @@ export class UserService implements UserServiceInterface {
 
     if (!user) throw new APIError("User not found by given Id", 404);
 
-    console.log(usersRepository.remove);
-
     usersRepository.remove(user);
   }
 

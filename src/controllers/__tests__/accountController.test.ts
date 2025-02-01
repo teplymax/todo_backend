@@ -30,10 +30,12 @@ const mockHeaders = {
 };
 
 const mockDecodeToken = jest.fn().mockReturnValue(mockTokenPayload);
+const mockRemoveToken = jest.fn().mockResolvedValue(undefined);
 jest.mock("@services/tokenService", () => ({
   TokenServiceSingleton: {
     getInstance: () => ({
-      decodeToken: mockDecodeToken
+      decodeToken: mockDecodeToken,
+      removeToken: mockRemoveToken
     })
   }
 }));
@@ -142,6 +144,8 @@ describe("AccountController tests", () => {
 
       expect(mockDecodeToken).toHaveBeenCalledWith(extractTokenFromAuthHeader(mockHeaders.authorization));
       expect(mockDeleteUser).toHaveBeenCalledWith(mockTokenPayload.id);
+      expect(mockRemoveToken).toHaveBeenCalledWith(mockTokenPayload.id);
+      expect(res.clearCookie).toHaveBeenCalledWith("refreshToken");
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(generateResponse());
     });
@@ -157,6 +161,8 @@ describe("AccountController tests", () => {
 
       expect(mockDecodeToken).toHaveBeenCalledWith(extractTokenFromAuthHeader(mockHeaders.authorization));
       expect(mockDeleteUser).toHaveBeenCalledWith(mockTokenPayload.id);
+      expect(mockRemoveToken).not.toHaveBeenCalled();
+      expect(res.clearCookie).not.toHaveBeenCalled();
       expect(res.status).not.toHaveBeenCalled();
       expect(res.json).not.toHaveBeenCalled();
       expect(mockNextFunction).toHaveBeenCalledWith(mockError);
